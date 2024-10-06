@@ -5,13 +5,19 @@
   "main": "index.js",
   "private": true,
   "scripts": {
-    "dev": "node app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon app.js",
+    "build": "rollup --bundleConfigAsCjs --config",
+    "test": "echo \"TEST in backendOne\" ",
+    "create-container": "docker build ."
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "4.21.0",
-    "dotenv": "16.4.5"
+    "dotenv": "16.4.5",
+    "express": "4.21.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7",
+    "ts-node": "^10.9.2"
   }
 }

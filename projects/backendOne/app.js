@@ -5,7 +5,7 @@ const port = process.env.PORT
 console.log(port, 'PORT 1')
 
 app.get('/', (req, res) => {
-    res.json({hello:'Hello World! backend 1'})
+    res.json({ hello:'Hello World! backend 1' })
 })
 
 app.listen(port, () => {

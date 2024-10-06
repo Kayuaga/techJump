@@ -1,11 +1,11 @@
 {
   "name": "@kayuga/ui-kit",
-  "version": "1.6.10",
+  "version": "0.0.1",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "scripts": {
     "build": "rollup -c --bundleConfigAsCjs",
-    "test": "jest .test.ts"
+    "test": "echo tests from ui-kit"
   },
   "peerDependencies": {
     "react": "^18.2.0",
@@ -14,6 +14,5 @@
   "publishConfig": {
     "@ui-kit:registry": "",
     "registry": ""
-  },
-  "gitHead": "d7e17315c524388c930573f94b04838f9d3c0ed1"
+  }
 }

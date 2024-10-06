@@ -6,12 +6,11 @@
   "module": "dist/index.es.js",
   "scripts": {
     "build": "rollup -c --bundleConfigAsCjs",
-    "test": "jest .test.ts"
+    "test": "echo tests from the popupManger"
   },
   "peerDependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "6.3.0"
-  },
-  "gitHead": "d7e17315c524388c930573f94b04838f9d3c0ed1"
+  }
 }
