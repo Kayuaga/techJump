@@ -3,10 +3,10 @@ import {serverConfig} from "../serverConfig"
 
 
 export default async function Home() {
-    const [responseOne, responseTwo] = await Promise.all(
-        [fetch(serverConfig.backendOneUrl),
-            fetch(serverConfig.backendOneUrl)])
-    const [data, dataTwo] = await Promise.all([responseOne.json(), responseTwo.json()])
+    // const [responseOne, responseTwo] = await Promise.all(
+    //     [fetch(serverConfig.backendOneUrl),
+    //         fetch(serverConfig.backendOneUrl)])
+    // const [data, dataTwo] = await Promise.all([responseOne.json(), responseTwo.json()])
 
     return (
         <div className={styles.page}>
