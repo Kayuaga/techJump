@@ -20,12 +20,12 @@ jobs:
         uses: actions/cache@v4
         with:
           path: lerna/cache
-          key: ${{ runner.os }}-lerna-${{ github.ref_name }}-${{ hashFiles('**/yarn.lock', '**/package-lock.json') }}
+          key: ${{ runner.os }}-lerna-${{ github.ref_name }}-${{ hashFiles('lerna/cache', '**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-lerna-main-
       - name: install dependencies
         run: npm ci
-      - name: run scripts to test lerna cahce
+      - name: run scripts to test lerna cache
         run: lerna run blocker
       - name: test scripts
         run: lerna run test
