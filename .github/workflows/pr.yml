@@ -37,5 +37,7 @@ jobs:
         run:  echo 'something with artifacts!'
       - name: deploy app
         run: echo 'DEPLOYING !!!!!!1111'
+      - name: log  hasFile again
+        run: echo this hash ${{ hashFiles('lerna/**/*') }}
 
 
