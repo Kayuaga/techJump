@@ -26,7 +26,7 @@ jobs:
       - name: install dependencies
         run: npm ci
       - name: run scripts to test lerna cahce
-        run: lerna run block
+        run: lerna run blocker
       - name: test scripts
         run: lerna run test
       - name: build app
