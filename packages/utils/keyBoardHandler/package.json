@@ -1,6 +1,6 @@
 {
   "name": "@testmonorep/keyboardhandler",
-  "version": "1.6.13",
+  "version": "0.0.1",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "private": true,
@@ -9,7 +9,7 @@
     "test": "echo tests from keyboardhandler"
   },
   "peerDependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
   }
 }
