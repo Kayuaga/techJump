@@ -20,7 +20,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: lerna/cache
-          key: ${{ runner.os }}-lerna-${{ github.ref_name }}-${{ hashFiles('lerna/cache', '**/package-lock.json') }}
+          key: ${{ runner.os }}-lerna-${{ github.ref_name }}-${{ hashFiles('**/lerna/cache/**', '**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-lerna-main-
       - name: install dependencies
