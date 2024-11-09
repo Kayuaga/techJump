@@ -23,6 +23,8 @@ jobs:
           key: ${{ runner.os }}-lerna-${{ github.ref_name }}-${{ hashFiles('lerna/**/*') }}
           restore-keys: |
             ${{ runner.os }}-lerna-main-
+      - name: log  hasFile
+        run: echo this hash ${{ hashFiles('lerna/**/*') }}
       - name: install dependencies
         run: npm ci
       - name: run scripts to test lerna cache
