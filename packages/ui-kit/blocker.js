@@ -1,6 +1,6 @@
 const foo = () => {
     return new Promise(resolve => setTimeout(()=> {
-        resolve('we are done!')
+        resolve('we are done! I hope lerna will launch only this one !')
     }, 5000));
 }
 
