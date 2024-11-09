@@ -5,7 +5,8 @@
   "module": "dist/index.es.js",
   "scripts": {
     "build": "rollup -c --bundleConfigAsCjs",
-    "test": "echo tests from ui-kit"
+    "test": "echo tests from ui-kit",
+    "blocker": "node blocker.js"
   },
   "peerDependencies": {
     "react": "18.3.1",

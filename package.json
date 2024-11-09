@@ -29,6 +29,7 @@
     "build": "lerna run build",
     "test": "lerna run test",
     "create-container": "lerna run create-container",
-    "dev": "lerna run dev"
+    "dev": "lerna run dev",
+    "blocker": "lerna run blocker"
   }
 }

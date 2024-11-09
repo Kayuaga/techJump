@@ -8,7 +8,8 @@
     "dev": "nodemon app.js",
     "test": "echo \"TEST in backendTwo\" ",
     "build": "rollup --bundleConfigAsCjs --config",
-    "create-container": "docker build ."
+    "create-container": "docker build .",
+    "blocker": "node blocker.js"
   },
   "author": "",
   "license": "ISC",

@@ -6,7 +6,8 @@
   "module": "dist/index.es.js",
   "scripts": {
     "build": "rollup -c --bundleConfigAsCjs",
-    "test": "echo tests from the popupManger"
+    "test": "echo tests from the popupManger",
+    "blocker": "node blocker.js"
   },
   "peerDependencies": {
     "react": "18.3.1",

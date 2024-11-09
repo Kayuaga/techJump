@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "test": "echo from techjump app",
-    "create-container": "docker build ."
+    "create-container": "docker build .",
+    "blocker": "node blocker.js"
   },
   "dependencies": {
     "next": "14.2.14",
