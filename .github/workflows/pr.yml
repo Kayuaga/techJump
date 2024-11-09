@@ -1,6 +1,5 @@
 name: Pull request
 on:
-  workflow_dispatch:
   pull_request:
 
 jobs:
@@ -22,7 +21,7 @@ jobs:
       - name: build app
         run: lerna run build
       - name: artifacts
-        uses:  echo 'something with artifacts!'
+        run:  echo 'something with artifacts!'
       - name: deploy app
         run: echo 'DEPLOYING !!!!!!1111'
 
