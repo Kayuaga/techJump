@@ -18,6 +18,8 @@ jobs:
           cache-dependency-path: package-lock.json
       - name: install dependencies
         run: npm ci
+      - name: test scripts
+        run: lerna run test
       - name: build app
         run: lerna run build
       - name: artifacts
