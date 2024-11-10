@@ -39,5 +39,10 @@ jobs:
         run: echo 'DEPLOYING !!!!!!1111'
       - name: log  hasFile again
         run: echo this hash ${{ hashFiles('lerna/**/*') }}
+      - name: update cache
+        uses: actions/cache@v4
+        with:
+          path: lerna/cache
+          key: ${{ runner.os }}-lerna-${{ github.ref_name }}-${{ hashFiles('lerna/**/*') }}
 
 
