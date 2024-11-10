@@ -1,0 +1,41 @@
+{
+  "cacheDirectory": "lerna/cache",
+  "targetDefaults": {
+    "blocker": {
+      "cache": true
+    },
+    "build": {
+      "cache": true,
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        "{projectRoot}/dist"
+      ]
+    },
+    "test": {
+      "cache": true,
+      "dependsOn": [
+        "^test"
+      ]
+    },
+    "dev": {
+      "dependsOn": []
+    },
+    "create-container": {
+      "cache": true,
+      "dependsOn": [
+        "^create-container"
+      ]
+    },
+    "start": {
+      "dependsOn": []
+    },
+    "lint": {
+      "cache": true,
+      "dependsOn": [
+        "^lint"
+      ]
+    }
+  }
+}

@@ -1,16 +1,16 @@
 {
   "name": "@testmonorep/keyboardhandler",
-  "version": "1.6.13",
+  "version": "0.0.1",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "private": true,
   "scripts": {
     "build": "rollup -c --bundleConfigAsCjs",
-    "test": "jest .test.ts"
+    "test": "echo tests from keyboardhandler",
+    "blocker": "node blocker.js"
   },
   "peerDependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
-  },
-  "gitHead": "d7e17315c524388c930573f94b04838f9d3c0ed1"
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  }
 }

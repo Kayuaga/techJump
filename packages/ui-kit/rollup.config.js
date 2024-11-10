@@ -26,9 +26,10 @@ export default {
     typescript({ jsx: 'preserve' }),
     resolve({ extensions: ['.jsx', '.js', '.tsx'] }),
     commonjs(),
-    terser(),
+    terser({compress:{directives:false}}),
     peerDepsExternal(),
     babel({
+     babelHelpers: 'bundled' ,
       extensions: ['.jsx', '.js', '.tsx', '.ts'],
       presets: ['@babel/preset-react'],
       exclude: 'node_modules/**',
