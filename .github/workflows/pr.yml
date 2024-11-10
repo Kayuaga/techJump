@@ -21,7 +21,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: lerna/cache
-          key: ${{ runner.os }}-lerna-${{ github.ref_name }}-${{ hashFiles('lerna/**/*') }-test_it}
+          key: ${{ runner.os }}-lerna-${{ github.ref_name }}-${{ hashFiles('lerna/**/*') }}--test_it
           restore-keys: |
             ${{ runner.os }}-lerna-main-
       - name: log  hasFile
