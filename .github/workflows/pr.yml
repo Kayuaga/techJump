@@ -40,7 +40,7 @@ jobs:
       - name: log  hasFile again
         run: echo this hash ${{ hashFiles('lerna/**/*') }}
       - name: update cache
-        uses: actions/cache@v4
+        uses: actions/cache/save@v4
         with:
           path: lerna/cache
           key: ${{ runner.os }}-lerna-${{ github.ref_name }}-${{ hashFiles('lerna/**/*') }}
