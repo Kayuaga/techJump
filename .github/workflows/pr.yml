@@ -21,6 +21,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: lerna/cache
+          key: cache-${{ github.sha }}
           restore-keys: |
             ${{ runner.os }}-lerna-${{ github.ref_name }}-${{ hashFiles('**/package-lock.json') }}-
             ${{ runner.os }}-lerna-main-
