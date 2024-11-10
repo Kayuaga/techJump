@@ -15,7 +15,8 @@
     "next": "14.2.14",
     "react": "18.3.1",
     "react-dom": "18.3.1",
-    "sass": "1.80.6"
+    "sass": "1.80.6",
+    "@kayuaga/ui-kit": "*"
   },
   "devDependencies": {
     "@types/node": "20",

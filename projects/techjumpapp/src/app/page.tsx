@@ -1,5 +1,6 @@
 import styles from "./page.module.css";
 import {serverConfig} from "../serverConfig"
+import {ModalCard} from "@kayuaga/ui-kit"
 
 
 export default async function Home() {
@@ -11,7 +12,9 @@ export default async function Home() {
     return (
         <div className={styles.page}>
             <main className={styles.main}>
-                Something great will be here
+                <ModalCard>
+                    Nice card!
+                </ModalCard>
             </main>
             <footer className={styles.footer}>
                 This is footer
