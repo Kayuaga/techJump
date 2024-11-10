@@ -17,7 +17,7 @@ jobs:
           cache: 'npm'
           cache-dependency-path: package-lock.json
       - name: lerna cache
-        uses: actions/cache@v4
+        uses: actions/cache/restore@v4
         with:
           path: lerna/cache
           key: ${{ runner.os }}-lerna-${{ github.ref_name }}-${{ hashFiles('lerna/**/*') }}
