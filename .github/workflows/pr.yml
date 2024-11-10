@@ -41,10 +41,11 @@ jobs:
       - name: log  hasFile again
         run: echo this hash ${{ hashFiles('lerna/**/*') }}
       - name: update cache
-        uses: actions/cache/save@v4
+        if: always()
+        uses: actions/cache/@v4
         with:
           path: lerna/cache
-          key: ${{ steps.lerna-cache.outputs.cache-primary-key }}
+          key: ${{ runner.os }}-lerna-${{ github.ref_name }}-${{ hashFiles('lerna/**/*') }}--test_it
 
 
 
