@@ -23,7 +23,7 @@ jobs:
           path: lerna/cache
           key: cache-${{ github.run_id  }}
           restore-keys: |
-            ${{ runner.os }}-lerna-${{ github.ref_name }}-${{ hashFiles('**/package-lock.json') }}-
+            ${{ runner.os }}-lerna-${{ github.ref_name }}
             ${{ runner.os }}-lerna-main-
       - name: log  hasFile
         run: echo this hash ${{ hashFiles('lerna/**/*') }}
