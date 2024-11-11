@@ -1,6 +1,6 @@
 import styles from "./page.module.css";
 import {serverConfig} from "../serverConfig"
-import {ModalCard} from "@kayuaga/ui-kit"
+import {ModalCard} from "../client"
 
 
 export default async function Home() {
