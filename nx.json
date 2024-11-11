@@ -10,7 +10,8 @@
         "^build"
       ],
       "outputs": [
-        "{projectRoot}/dist"
+        "{projectRoot}/dist",
+        "{projectRoot}/.next"
       ]
     },
     "test": {
