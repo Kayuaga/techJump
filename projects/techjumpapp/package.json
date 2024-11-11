@@ -12,11 +12,11 @@
     "blocker": "node blocker.js"
   },
   "dependencies": {
+    "@kayuaga/ui-kit": "^0.0.1",
     "next": "14.2.14",
     "react": "18.3.1",
     "react-dom": "18.3.1",
-    "sass": "1.80.6",
-    "@kayuaga/ui-kit": "*"
+    "sass": "1.80.6"
   },
   "devDependencies": {
     "@types/node": "20",
