@@ -19,6 +19,9 @@ jobs:
           cache-dependency-path: package-lock.json
       - name: install deps
         run: npm ci
+      - name: github creds
+        run: git config --global user.email "test@test.com" 
+             & git config --global user.name "test"
       - name: lerna version
         run: lerna version --yes --conventional-commits
         env:
