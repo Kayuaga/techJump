@@ -1,6 +1,6 @@
 {
   "name": "techjumpapp",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -11,7 +11,7 @@
     "blocker": "node blocker.js"
   },
   "dependencies": {
-    "@kayuaga/ui-kit": "^0.3.3",
+    "@kayuaga/ui-kit": "^0.4.0",
     "next": "14.2.14",
     "react": "18.3.1",
     "react-dom": "18.3.1",

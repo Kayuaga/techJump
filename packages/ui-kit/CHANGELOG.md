@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.4.0](https://github.com/Kayuaga/techJump/compare/@kayuaga/ui-kit@0.3.3...@kayuaga/ui-kit@0.4.0) (2024-11-12)
+
+
+### Features
+
+* testing some stuff ([1b2461e](https://github.com/Kayuaga/techJump/commit/1b2461efacd4b9f576f536786c4aaa19bfb3e2f0))
+
+
+
+
+
 ## [0.3.3](https://github.com/Kayuaga/techJump/compare/@kayuaga/ui-kit@0.3.2...@kayuaga/ui-kit@0.3.3) (2024-11-12)
 
 
