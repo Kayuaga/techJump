@@ -7,7 +7,7 @@ permissions:
 
 
 jobs:
-  run-scripts:
+  run-scripts-versioning:
     runs-on: ubuntu-latest
     steps:
       - name: checkout
