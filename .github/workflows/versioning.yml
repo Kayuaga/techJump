@@ -20,7 +20,7 @@ jobs:
       - name: install deps
         run: npm ci
       - name: lerna version
-        run: lerna version --yes --conventional-commits  --no-verify-access
+        run: lerna version --yes --conventional-commits
         env:
           GITHUB_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
 
