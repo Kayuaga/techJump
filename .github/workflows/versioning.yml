@@ -1,4 +1,4 @@
-name: versioning.yml
+name: Versioning
 on:
   workflow_dispatch:
 permissions:
@@ -23,15 +23,6 @@ jobs:
           cache-dependency-path: package-lock.json
       - name: install deps
         run: npm ci
-      - name: lerna cache
-        id: lerna-cache
-        uses: actions/cache/restore@v4
-        with:
-          path: lerna/cache
-          key: cache-${{ github.run_id  }}
-          restore-keys: |
-            ${{ runner.os }}-lerna-${{ github.ref_name }}
-            ${{ runner.os }}-lerna-main-
       - name: github creds
         run: git config --global user.email "test@test.com" 
              && git config --global user.name "test"
@@ -42,9 +33,3 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.REPO_ACCESS_VER }}
       - name: update cache
-        if: always()
-        uses: actions/cache/save@v4
-        with:
-          path: lerna/cache
-          key: ${{ runner.os }}-lerna-${{ github.ref_name }}-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('lerna/cache') }}
-
