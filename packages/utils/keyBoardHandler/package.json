@@ -3,7 +3,6 @@
   "version": "0.0.3",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
-  "private": true,
   "scripts": {
     "build": "rollup -c --bundleConfigAsCjs",
     "test": "echo tests from keyboardhandler",
