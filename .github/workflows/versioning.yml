@@ -22,6 +22,8 @@ jobs:
       - name: github creds
         run: git config --global user.email "test@test.com" 
              & git config --global user.name "test"
+      - name: cheking secret
+        run: echo ${{ secrets.REPO_ACCESS_TOKEN }}
       - name: lerna version
         run: lerna version --yes --conventional-commits
         env:
