@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.3](https://github.com/Kayuaga/techJump/compare/@kayuaga/ui-kit@0.3.2...@kayuaga/ui-kit@0.3.3) (2024-11-12)
+
+
+### Bug Fixes
+
+* issue with actions checkout in the right file! ([c478e4c](https://github.com/Kayuaga/techJump/commit/c478e4cd1d5ba5dd5b4a204518eb9b6bfb64e64c))
+
+
+
+
+
 ## 0.3.2 (2024-11-12)
 
 
