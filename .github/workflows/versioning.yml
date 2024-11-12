@@ -5,7 +5,6 @@ permissions:
     id-token: write
     contents: write
 
-
 jobs:
   run-scripts-versioning:
     runs-on: ubuntu-latest

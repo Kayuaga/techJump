@@ -16,7 +16,7 @@ export const ModalCard: FC<IProps> = ({isThin, header, children}) => {
             className={styles.container}>
             <div className={styles.headerContainer}>
                 <div className={styles.header}>{header}</div>
-                <button onClick={()=> console.log('HELLO!v1.7.8 cmon i hope now i will work!!!!')}>Cross icon should be there=)</button>
+                <button onClick={()=> console.log('HELLO!v1.7.8 cmon i hope now i will work!!!!Test')}>Cross icon should be there=)</button>
             </div>
             <>{children}</>
         </div>
