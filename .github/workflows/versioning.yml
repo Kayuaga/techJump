@@ -1,6 +1,9 @@
 name: versioning.yml
 on:
   workflow_dispatch:
+permissions:
+    id-token: write
+    contents: write
 
 
 jobs:
@@ -23,9 +26,9 @@ jobs:
         run: git config --global user.email "test@test.com" 
              & git config --global user.name "test"
       - name: cheking secret
-        run: echo ${{ secrets.REPO_ACCESS_TOKEN }}
+        run: echo ${{ secrets.REPO_ACCESS_VER }}
       - name: lerna version
         run: lerna version --yes --conventional-commits
         env:
-          GITHUB_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.REPO_ACCESS_VER }}
 

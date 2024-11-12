@@ -1,6 +1,6 @@
 {
   "name": "@testmonorep/popupManager",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "dist/index.js",
   "private": true,
   "module": "dist/index.es.js",
