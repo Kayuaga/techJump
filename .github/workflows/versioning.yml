@@ -33,7 +33,7 @@ jobs:
             ${{ runner.os }}-lerna-main-
       - name: github creds
         run: git config --global user.email "test@test.com" 
-             & git config --global user.name "test"
+             && git config --global user.name "test"
       - name: cheking secret
         run: echo ${{ secrets.REPO_ACCESS_VER }}
       - name: lerna version
