@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.2.3 (2024-11-12)
+
+
+### Bug Fixes
+
+* issue with actions checkout ([59e41eb](https://github.com/Kayuaga/techJump/commit/59e41ebca4599d1c666eab4071e1d7993d1ce6b5))
+
+
+
+
+
 ## 0.2.2 (2024-11-12)
 
 **Note:** Version bump only for package @testmonorep/keyboardhandler
