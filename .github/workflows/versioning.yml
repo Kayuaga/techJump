@@ -28,7 +28,7 @@ jobs:
       - name: cheking secret
         run: echo ${{ secrets.REPO_ACCESS_VER }}
       - name: lerna version
-        run: lerna version --yes --conventional-commits
+        run: lerna version --yes --conventional-commits --no-private
         env:
           GITHUB_TOKEN: ${{ secrets.REPO_ACCESS_VER }}
 
