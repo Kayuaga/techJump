@@ -28,8 +28,7 @@ jobs:
         with:
           path: | 
             lerna/cache 
-            packages/**/*/build
-            projects/**/*/build
+            packages/*/dist
           key: cache-${{ github.run_id  }}
           restore-keys: |
             ${{ runner.os }}-lerna-${{ github.ref_name }}
