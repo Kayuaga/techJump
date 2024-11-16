@@ -30,6 +30,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-lerna-${{ github.ref_name }}
             ${{ runner.os }}-lerna-main-
+      - name: Check lernas cache files before start
+        run: ls lerna/*
       - name: install dependencies
         run: npm ci
       - name: run scripts to test lerna cache
