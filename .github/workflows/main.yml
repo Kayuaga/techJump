@@ -52,7 +52,7 @@ jobs:
         with:
           path: |
            lerna/cache
-            nx.json
+           nx.json
           key: ${{ runner.os }}-lerna-${{ github.ref_name }}-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('lerna/cache') }}
 
 
