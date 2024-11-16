@@ -17,8 +17,8 @@ jobs:
           cache-dependency-path: package-lock.json
       - name: install deps
         run: npm ci
-      - name: npx nx reset
-        run: nx reset
+      - name: nx reset
+        run: npx nx reset
       - name: make new cache
         uses: actions/cache/save@v4
         with:
