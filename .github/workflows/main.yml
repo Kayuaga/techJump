@@ -28,7 +28,7 @@ jobs:
       - name: install dependencies
         run: npm ci
       - name: run scripts to test lerna cache
-        run: lerna run blocker --verbose
+        run: NX_REJECT_UNKNOWN_LOCAL_CACHE=0 lerna run blocker --verbose
       - name: test scripts
         run: lerna run test
       - name: build app
