@@ -23,9 +23,7 @@ jobs:
         id: lerna-cache
         uses: actions/cache/restore@v4
         with:
-          path: | 
-            lerna/cache 
-            packages/*/dist
+          path: lerna/cache
           key: cache-${{ github.run_id  }}
           restore-keys: |
             ${{ runner.os }}-lerna-${{ github.ref_name }}
