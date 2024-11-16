@@ -1,0 +1,25 @@
+name: Reset cache
+
+on:
+  workflow_dispatch:
+
+jobs:
+  run-scripts-versioning:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+      - name: Cashing npm
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: package-lock.json
+      - name: nx reset
+        run: nx reset
+      - name: make new cache
+        uses: actions/cache/save@v4
+        with:
+          path: lerna/cache
+          key: ${{ runner.os }}-lerna-${{ github.ref_name }}-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('lerna/cache') }}
+
