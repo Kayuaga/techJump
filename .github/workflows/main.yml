@@ -24,8 +24,8 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: |
-           lerna/cache
-           packages/*/dist
+            lerna/cache
+            nx.json
           key: cache-${{ github.run_id  }}
           restore-keys: |
             ${{ runner.os }}-lerna-${{ github.ref_name }}
@@ -52,7 +52,7 @@ jobs:
         with:
           path: |
            lerna/cache
-           packages/*/dist
+            nx.json
           key: ${{ runner.os }}-lerna-${{ github.ref_name }}-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('lerna/cache') }}
 
 
