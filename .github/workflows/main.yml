@@ -18,15 +18,23 @@ jobs:
           node-version: 20
           cache: 'npm'
           cache-dependency-path: package-lock.json
+      - name: Cache Build
+        uses: actions/cache@v4
+        with:
+          path:
       - name: lerna cache
         id: lerna-cache
         uses: actions/cache/restore@v4
         with:
-          path: lerna/cache
+          path: | 
+            lerna/cache 
+            packages/**/*/build
+            projects/**/*/build
           key: cache-${{ github.run_id  }}
           restore-keys: |
             ${{ runner.os }}-lerna-${{ github.ref_name }}
             ${{ runner.os }}-lerna-main-
+
       - name: install dependencies
         run: npm ci
       - name: run scripts to test lerna cache
