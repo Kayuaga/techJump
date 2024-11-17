@@ -1,5 +1,5 @@
 {
-  "name": "@kayuaga/popupManager",
+  "name": "@kayuaga/popup-manager",
   "version": "0.4.2",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
