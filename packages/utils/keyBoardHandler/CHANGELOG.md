@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.2](https://github.com/Kayuaga/techJump/compare/@kayuaga/keyboardhandler@0.4.1...@kayuaga/keyboardhandler@0.4.2) (2024-11-17)
+
+
+### Bug Fixes
+
+* publishing ([da884a0](https://github.com/Kayuaga/techJump/commit/da884a056696fd9f343925f18562f7fbdc0b00c7))
+
+
+
+
+
 ## [0.4.1](https://github.com/Kayuaga/techJump/compare/@kayuaga/keyboardhandler@0.4.0...@kayuaga/keyboardhandler@0.4.1) (2024-11-17)
 
 
