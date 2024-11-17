@@ -23,13 +23,13 @@ jobs:
         id: lerna-cache
         uses: actions/cache/restore@v4
         with:
-          path: lerna/cache
-          key: cache-${{ github.run_id  }}
+          path: |
+            lerna/cache
+            packages/*/dist
+          key: cache-${{ github.run_id  }}-new
           restore-keys: |
-            ${{ runner.os }}-lerna-${{ github.ref_name }}
-            ${{ runner.os }}-lerna-main-
-      - name: Check lernas cache files before start
-        run: ls lerna/*
+            cache-${{ runner.os }}-lerna-${{ github.ref_name }}
+            cache-${{ runner.os }}-lerna-main-
       - name: install dependencies
         run: npm ci
       - name: run scripts to test lerna cache
@@ -48,8 +48,10 @@ jobs:
         if: always()
         uses: actions/cache/save@v4
         with:
-          path: lerna/cache
-          key: ${{ runner.os }}-lerna-${{ github.ref_name }}-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('lerna/cache') }}
+          path: |
+            lerna/cache
+            packages/*/dist
+          key: cache-${{ runner.os }}-lerna-${{ github.ref_name }}-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('lerna/cache') }}
 
 
 
