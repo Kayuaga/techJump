@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.1](https://github.com/Kayuaga/techJump/compare/@kayuaga/popupManager@0.4.0...@kayuaga/popupManager@0.4.1) (2024-11-17)
+
+
+### Bug Fixes
+
+* packages name spacing ([ef72276](https://github.com/Kayuaga/techJump/commit/ef72276faa4de7cff4c1331bd256a9cd67ba20f9))
+
+
+
+
+
 # 0.4.0 (2024-11-17)
 
 
