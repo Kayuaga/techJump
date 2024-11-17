@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.5.0](https://github.com/Kayuaga/techJump/compare/@kayuaga/ui-kit@0.4.0...@kayuaga/ui-kit@0.5.0) (2024-11-17)
+
+
+### Features
+
+* added lerna publish ([08d0abd](https://github.com/Kayuaga/techJump/commit/08d0abdc6c1c2027c374d8f351db3fc838be4c37))
+
+
+
+
+
 # [0.4.0](https://github.com/Kayuaga/techJump/compare/@kayuaga/ui-kit@0.3.3...@kayuaga/ui-kit@0.4.0) (2024-11-12)
 
 

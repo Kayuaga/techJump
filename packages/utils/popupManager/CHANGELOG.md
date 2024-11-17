@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](https://github.com/Kayuaga/techJump/compare/@testmonorep/popupManager@0.2.3...@testmonorep/popupManager@0.3.0) (2024-11-17)
+
+
+### Features
+
+* added lerna publish ([08d0abd](https://github.com/Kayuaga/techJump/commit/08d0abdc6c1c2027c374d8f351db3fc838be4c37))
+
+
+
+
+
 ## 0.2.3 (2024-11-12)
 
 
