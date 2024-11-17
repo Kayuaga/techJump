@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.7](https://github.com/Kayuaga/techJump/compare/techjumpapp@0.3.6...techjumpapp@0.3.7) (2024-11-17)
+
+
+### Bug Fixes
+
+* publishing ([4a73aff](https://github.com/Kayuaga/techJump/commit/4a73aff5f645f52aace5103e8405dd416b3e4d12))
+
+
+
+
+
 ## [0.3.6](https://github.com/Kayuaga/techJump/compare/techjumpapp@0.3.5...techjumpapp@0.3.6) (2024-11-17)
 
 **Note:** Version bump only for package techjumpapp
