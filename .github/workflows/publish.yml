@@ -38,4 +38,4 @@ jobs:
         run: git config --global user.email "test@test.com"
           && git config --global user.name "test"
       - name: lerna publish
-        run: npx lerna publish --yes --conventional-commits --no-private --verbose
+        run: npx lerna publish --yes --conventional-commits --no-private
