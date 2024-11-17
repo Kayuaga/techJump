@@ -11,12 +11,14 @@ jobs:
     env:
       NX_REJECT_UNKNOWN_LOCAL_CACHE: 0
     steps:
+      - name: check env variables
+        run: echo ${{ env }}
       - name: checkout
         uses: actions/checkout@v4
       - name: Cashing npm
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: ${{ env.NOVE_VERSION }}
           cache: 'npm'
           cache-dependency-path: package-lock.json
       - name: lerna cache

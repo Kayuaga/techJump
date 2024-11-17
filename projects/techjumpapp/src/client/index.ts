@@ -1,2 +1,2 @@
 "use client"
-export {ModalCard} from "@kayuaga/ui-kit"
+export { ModalCard } from "@kayuaga/ui-kit"

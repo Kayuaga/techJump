@@ -19,7 +19,7 @@ jobs:
       - name: Cashing npm and set up publishing
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: ${{ env.NOVE_VERSION }}
           registry-url: 'https://npm.pkg.github.com'
           scope: '@kayuaga'
           cache: 'npm'
