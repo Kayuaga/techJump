@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.4](https://github.com/Kayuaga/techJump/compare/@kayuaga/ui-kit@0.5.3...@kayuaga/ui-kit@0.5.4) (2024-11-17)
+
+**Note:** Version bump only for package @kayuaga/ui-kit
+
+
+
+
+
 ## [0.5.3](https://github.com/Kayuaga/techJump/compare/@kayuaga/ui-kit@0.5.2...@kayuaga/ui-kit@0.5.3) (2024-11-17)
 
 
