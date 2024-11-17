@@ -1,5 +1,5 @@
 {
-  "name": "@testmonorep/popupManager",
+  "name": "@kayuaga/popupManager",
   "version": "0.3.0",
   "main": "dist/index.js",
   "private": true,

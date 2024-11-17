@@ -1,5 +1,5 @@
 {
-  "name": "@testmonorep/keyboardhandler",
+  "name": "@kayuaga/keyboardhandler",
   "version": "0.3.0",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
