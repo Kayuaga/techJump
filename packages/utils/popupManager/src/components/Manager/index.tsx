@@ -9,6 +9,7 @@ interface IProps {
 }
 export const Manager: FC<IProps> = ({ config }) => {
   const { popups, goBack } = usePresenter()
+  console.log('New changes in our manager!')
   return <>
     {
       popups.map((popup, i)=> {

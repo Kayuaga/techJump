@@ -6,6 +6,7 @@ import { Callback } from '../Callback'
 
 export const AddKeyPressHandler: FC<IProps> = (props) => {
   const { callbacks } = usePresenter(props)
+  console.log('new changes')
   return (
     <>
       {callbacks.map((callbackData) => (
