@@ -16,7 +16,7 @@ jobs:
       - name: Cashing npm
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ env.NOVE_VERSION }}
+          node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
           cache-dependency-path: package-lock.json
       - name: github creds
