@@ -9,16 +9,19 @@ jobs:
   run-scripts-versioning:
     runs-on: ubuntu-latest
     env:
+      GITHUB_TOKEN: ${{ secrets.REPO_ACCESS_VER }}
       NODE_AUTH_TOKEN: ${{ secrets.REPO_ACCESS_VER }}
     steps:
       - name: checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: '0'
-      - name: Cashing npm
+      - name: Cashing npm and set up publishing
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@kayuaga'
           cache: 'npm'
           cache-dependency-path: package-lock.json
       - name: lerna cache
@@ -34,7 +37,5 @@ jobs:
       - name: github creds
         run: git config --global user.email "test@test.com"
           && git config --global user.name "test"
-      - name: lerna version
-        run: npx lerna publish --yes --conventional-commits
-        env:
-          GITHUB_TOKEN: ${{ secrets.REPO_ACCESS_VER }}
+      - name: lerna publish
+        run: npx lerna publish --yes --conventional-commits --no-private --verbose

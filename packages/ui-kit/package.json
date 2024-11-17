@@ -1,5 +1,5 @@
 {
-  "name": "@kayuaga/ui-kit",
+  "name": "@Kayuaga/ui-kit",
   "version": "0.5.1",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
