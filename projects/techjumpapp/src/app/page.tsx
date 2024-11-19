@@ -13,7 +13,7 @@ export default async function Home() {
         <div className={styles.page}>
             <main className={styles.main}>
                 <ModalCard>
-                    Nice card!
+                    Nice card!!!
                 </ModalCard>
             </main>
             <footer className={styles.footer}>
