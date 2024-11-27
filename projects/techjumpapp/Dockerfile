@@ -2,8 +2,12 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-COPY ./build .
+COPY .next/standalone/node_modules ./node_modules
+COPY .next/standalone/projects/techjumpapp ./
+COPY .next/static .next/static/
+RUN ls
 
-EXPOSE 3003
+EXPOSE 3000
 
-CMD ["node", "app.js"]
+CMD PORT=3000 node server.js
+
