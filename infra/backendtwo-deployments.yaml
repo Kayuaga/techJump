@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backendtwo
+  labels:
+    app: backendtwo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backendtwo
+  template:
+    metadata:
+      name: backendtwo
+      labels:
+        app: backendtwo
+    spec:
+      containers:
+        - name: backendtwo
+          image: backendtwo:latest
+          imagePullPolicy: Never
+          env:
+            - name: PORT
+              value: '3000'
+      restartPolicy: Always
+      

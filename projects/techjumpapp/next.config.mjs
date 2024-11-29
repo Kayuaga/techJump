@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    output: 'standalone',
+    // output: 'standalone',
     // redirects: async () => [
     //     {
     //         destination: process.env.BACKEND_ONE_URL,

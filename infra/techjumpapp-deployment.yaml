@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: techjumpfront
+  labels:
+    app: techjumpfront
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: techjumpfront
+  template:
+    metadata:
+      name: techjumpfront
+      labels:
+        app: techjumpfront
+    spec:
+      containers:
+        - name: techjumpfront
+          image: techjumpapp:latest
+          imagePullPolicy: Never
+          env:
+            - name: BACKEND_ONE_URL
+              value: 'http://backendone-service.default'
+            - name: BACKEND_TWO_URL
+              value: 'http://backendtwo-service.default'
+      restartPolicy: Always
+      
