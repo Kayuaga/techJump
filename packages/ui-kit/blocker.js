@@ -1,6 +1,6 @@
 const foo = () => {
     return new Promise(resolve => setTimeout(()=> {
-        resolve('we are done!Lets see how it works with with cashe from master branch')
+        resolve('we are done!Lets see how it works with with cashe from master branch! Lets test it')
     }, 5000));
 }
 
