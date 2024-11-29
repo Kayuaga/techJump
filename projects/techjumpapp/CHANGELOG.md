@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.4.0](https://github.com/Kayuaga/techJump/compare/techjumpapp@0.3.9...techjumpapp@0.4.0) (2024-11-29)
+
+
+### Bug Fixes
+
+* next build ([b98a4cf](https://github.com/Kayuaga/techJump/commit/b98a4cf76863222e40548355efa9f97ab0fd2490))
+
+
+### Features
+
+* added dockerfiles ([#7](https://github.com/Kayuaga/techJump/issues/7)) ([e662cff](https://github.com/Kayuaga/techJump/commit/e662cff9ac46ade31fd6a2fcc9788bedfca20a73))
+* added infra setup, changed building process for the next app ([3cc6b07](https://github.com/Kayuaga/techJump/commit/3cc6b07c83ba8357e6a8b9912c384b9b82030092))
+* added node version ([73c7127](https://github.com/Kayuaga/techJump/commit/73c7127b5b52cf000fda070e358605d6bae28288))
+
+
+
+
+
 ## [0.3.9](https://github.com/Kayuaga/techJump/compare/techjumpapp@0.3.8...techjumpapp@0.3.9) (2024-11-17)
 
 **Note:** Version bump only for package techjumpapp

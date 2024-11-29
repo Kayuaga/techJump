@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](https://github.com/Kayuaga/techJump/compare/backendtwo@0.2.3...backendtwo@0.3.0) (2024-11-29)
+
+
+### Features
+
+* added dockerfiles ([#7](https://github.com/Kayuaga/techJump/issues/7)) ([e662cff](https://github.com/Kayuaga/techJump/commit/e662cff9ac46ade31fd6a2fcc9788bedfca20a73))
+* added node version ([73c7127](https://github.com/Kayuaga/techJump/commit/73c7127b5b52cf000fda070e358605d6bae28288))
+
+
+
+
+
 ## 0.2.3 (2024-11-12)
 
 
