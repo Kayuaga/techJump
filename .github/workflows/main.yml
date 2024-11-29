@@ -5,6 +5,10 @@ on:
     branches:
       - main
 
+  concurrency:
+    group: ${{ github.ref }} # Use branch name as the group identifier
+    cancel-in-progress: true # Cancel any in-progress runs when a new commit is pushed
+
 jobs:
   test-lerna-cache:
     runs-on: ubuntu-latest
