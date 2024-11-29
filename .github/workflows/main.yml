@@ -6,6 +6,37 @@ on:
       - main
 
 jobs:
+  test-lerna-cache:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+      - name: Cashing npm
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: package-lock.json
+      - name: lerna cache
+        id: lerna-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: lerna/cache
+          key: cache-${{ github.run_id  }}
+          restore-keys: |
+            ${{ runner.os }}-lerna-${{ github.ref_name }}
+            ${{ runner.os }}-lerna-main-
+      - name: install dependencies
+        run: npm ci
+      - name: run scripts to test lerna cache
+        run: lerna run blocker
+      - name: update cache
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: lerna/cache
+          key: ${{ runner.os }}-lerna-${{ github.ref_name }}-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('lerna/cache/run.json') }}
+
   run-scripts-main:
     runs-on: ubuntu-latest
     env:
@@ -53,7 +84,7 @@ jobs:
           path: |
             lerna/cache
             packages/*/dist
-          key: cache-${{ runner.os }}-lerna-${{ github.ref_name }}-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('lerna/cache') }}
+          key: ${{ runner.os }}-lerna-${{ github.ref_name }}-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('lerna/cache/run.json') }}
 
 
 
