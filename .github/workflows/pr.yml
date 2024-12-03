@@ -33,7 +33,9 @@ jobs:
           aws-region: eu-north-1
       - name: Bootstrapinng and deploying
         if: ${{ github.event.action == 'opened' || github.event.action == 'reopened' }}
-        run: REPOSITORY_NAME=${{github.event.pull_request.name}} lerna run prepare-registry
+        env:
+          REPOSITORY_NAME=${{github.event.pull_request.number}}
+        run: lerna run prepare-registry
 #      - name: test scripts
 #        run: lerna run test
 #      - name: build app
