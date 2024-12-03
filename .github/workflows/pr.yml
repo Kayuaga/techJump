@@ -3,37 +3,6 @@ on:
   pull_request:
 
 jobs:
-  test-lerna-cache:
-    runs-on: ubuntu-latest
-    steps:
-      - name: checkout
-        uses: actions/checkout@v4
-      - name: Cashing npm
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-          cache-dependency-path: package-lock.json
-      - name: lerna cache
-        id: lerna-cache
-        uses: actions/cache/restore@v4
-        with:
-          path: lerna/cache
-          key: cache-${{ github.run_id  }}
-          restore-keys: |
-            ${{ runner.os }}-lerna-${{ github.ref_name }}
-            ${{ runner.os }}-lerna-main-
-      - name: install dependencies
-        run: npm ci
-      - name: run scripts to test lerna cache
-        run: lerna run blocker
-      - name: update cache
-        if: always()
-        uses: actions/cache/save@v4
-        with:
-          path: lerna/cache
-          key: ${{ runner.os }}-lerna-${{ github.ref_name }}-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('lerna/cache/run.json') }}
-
   build-app:
     runs-on: ubuntu-latest
     steps:
@@ -56,14 +25,23 @@ jobs:
             ${{ runner.os }}-lerna-main-
       - name: install dependencies
         run: npm ci
-      - name: test scripts
-        run: lerna run test
-      - name: build app
-        run: lerna run build
-      - name: artifacts
-        run:  echo 'something with artifacts!'
-      - name: deploy app
-        run: echo 'DEPLOYING !!!!!!1111'
+      - name: Prepare Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY}}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+          aws-region: eu-north-1
+      - name: Bootstrapinng and deploying
+        if: ${{github.event.action == 'open'}}
+        run: REPOSITORY_NAME=${{github.event.pull_request.name}} lerna run prepare-registry
+#      - name: test scripts
+#        run: lerna run test
+#      - name: build app
+#        run: lerna run build
+#      - name: artifacts
+#        run:  echo 'something with artifacts!'
+#      - name: deploy app
+#        run: echo 'DEPLOYING !!!!!!1111'
       - name: update cache
         if: always()
         uses: actions/cache/save@v4

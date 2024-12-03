@@ -9,7 +9,8 @@
     "test": "echo \"TEST in backendTwo\" ",
     "build": "rollup --bundleConfigAsCjs --config",
     "create-container": "docker build .",
-    "blocker": "node blocker.js"
+    "blocker": "node blocker.js",
+    "prepare-registry": "REPOSITORY_ID=backendtwo ECR_ID=backendtwo PROJECT_ID=backendtwo PROJECT_NAME=backendtwo lerna run deploy-registry --scope cdk_infra -- --output cdk.out/backendtwo"
   },
   "author": "",
   "license": "ISC",
