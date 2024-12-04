@@ -6,7 +6,7 @@ jobs:
   build-app:
     runs-on: ubuntu-latest
     env:
-      DOCKER_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+
       REPOSITORY_NAME: ${{ github.event.pull_request.number }}
     steps:
       - name: checkout
@@ -43,6 +43,9 @@ jobs:
       - name: Log in to Amazon ECR
         uses: aws-actions/amazon-ecr-login@v2
         id: login-ecr
+      - name: Set environment variables
+        run: |
+          echo "DOCKER_REGISTRY=${{ steps.login-ecr.outputs.registry }}" >> $GITHUB_ENV
       - name: login registry
         run: "echo Docker Registry: $DOCKER_REGISTRY"
       - name: build app
