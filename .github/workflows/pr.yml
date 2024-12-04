@@ -40,6 +40,8 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v2
         id: login-ecr
       - name: build app
+        env:
+          DOCKER_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         run: lerna run build
       - name: prepare docker images
         run: lerna run docker-build
