@@ -31,12 +31,18 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY}}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
           aws-region: eu-north-1
-      - name: Bootstrapinng and deploying
+      - name: deploying
         if: ${{ github.event.action == 'opened' || github.event.action == 'reopened' }}
         env:
           REPOSITORY_NAME: ${{github.event.pull_request.number}}
         run: lerna run prepare-registry
-#      - name: test scripts
+      - name: Log in to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v2
+        id: login-ecr
+      - name: Log Registry name
+        run: echo ${{ steps.login-ecr.outputs.registry }}
+
+      #      - name: test scripts
 #        run: lerna run test
 #      - name: build app
 #        run: lerna run build
