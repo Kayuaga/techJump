@@ -5,6 +5,9 @@ on:
 jobs:
   build-app:
     runs-on: ubuntu-latest
+    env:
+      DOCKER_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+      REPOSITORY_NAME: ${{ github.event.pull_request.number }}
     steps:
       - name: checkout
         uses: actions/checkout@v4
@@ -36,22 +39,17 @@ jobs:
           aws-region: eu-north-1
       - name: deploying
         if: ${{ github.event.action == 'opened' || github.event.action == 'reopened' }}
-        env:
-          REPOSITORY_NAME: ${{github.event.pull_request.number}}
         run: lerna run prepare-registry
       - name: Log in to Amazon ECR
         uses: aws-actions/amazon-ecr-login@v2
         id: login-ecr
+      - name: login registry
+        run: "echo Docker Registry: $DOCKER_REGISTRY"
       - name: build app
-
         run: lerna run build
       - name: prepare docker images
         run: lerna run docker-build
-        env:
-          DOCKER_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
       - name: push docker image
-        env:
-          DOCKER_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         run: lerna run docker-push
       - name: update cache
         if: always()
