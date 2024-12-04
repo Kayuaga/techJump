@@ -25,7 +25,10 @@ jobs:
         id: lerna-cache
         uses: actions/cache/restore@v4
         with:
-          path: lerna/cache
+          path: |
+            lerna/cache
+            packages/*/dist
+            projects/*/build
           key: cache-${{ github.run_id  }}
           restore-keys: |
             ${{ runner.os }}-lerna-${{ github.ref_name }}
@@ -63,6 +66,7 @@ jobs:
           path: |
             lerna/cache
             packages/*/dist
+            projects/*/build
           key: cache-${{ github.run_id  }}-new
           restore-keys: |
             cache-${{ runner.os }}-lerna-${{ github.ref_name }}
@@ -88,6 +92,7 @@ jobs:
           path: |
             lerna/cache
             packages/*/dist
+            projects/*/build
           key: ${{ runner.os }}-lerna-${{ github.ref_name }}-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('lerna/cache/run.json') }}
 
 
