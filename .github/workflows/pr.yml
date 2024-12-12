@@ -6,7 +6,6 @@ jobs:
   build-app:
     runs-on: ubuntu-latest
     env:
-
       REPOSITORY_NAME: ${{ github.event.pull_request.number }}
     steps:
       - name: checkout
