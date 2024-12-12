@@ -12,6 +12,7 @@
     "destroy": "cdk destroy --force"
   },
   "devDependencies": {
+    "@aws-cdk/lambda-layer-kubectl-v31": "^2.0.0",
     "@types/jest": "29.5.14",
     "@types/node": "22.7.9",
     "jest": "29.7.0",

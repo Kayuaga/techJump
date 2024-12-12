@@ -9,7 +9,9 @@
     "lint": "next lint",
     "test": "echo from techjump app",
     "create-container": "docker build .",
-    "blocker": "node blocker.js"
+    "blocker": "node blocker.js",
+    "prepare-infrastructure": "lerna run deploy-registry --scope cdk_infra -- --output cdk.out/frontendapp",
+    "destroy-infrastructure": "lerna run destroy --scope cdk_infra"
   },
   "dependencies": {
     "@kayuaga/ui-kit": "^0.5.5",
