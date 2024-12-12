@@ -11,8 +11,8 @@
     "create-container": "docker build .",
     "blocker": "node blocker.js",
     "bazfoo": "echo $FOO",
-    "prepare-registry": "lerna run deploy-registry --scope cdk_infra -- --output cdk.out/backendtwo",
-    "destroy-registry": "lerna run destroy --scope cdk_infra",
+    "prepare-infrastructure": "lerna run deploy-registry --scope cdk_infra -- --output cdk.out/backendtwo",
+    "destroy-infrastructure": "lerna run destroy --scope cdk_infra",
     "docker-build": "docker build -t $DOCKER_REGISTRY/$REPOSITORY_NAME-$PROJECT_NAME:$TAG .",
     "docker-push": "docker push $DOCKER_REGISTRY/$REPOSITORY_NAME-$PROJECT_NAME:$TAG"
   },
