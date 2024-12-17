@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: backendtwo
-          image: backendtwo:latest
+          image: backendtwo
           imagePullPolicy: Never
           env:
             - name: PORT

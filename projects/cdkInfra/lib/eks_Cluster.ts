@@ -10,6 +10,7 @@ interface MyEksClusterStackProps extends cdk.StackProps {
   clusterVersion: eks.KubernetesVersion;
   vpcCidr: string;
   amiReleaseVersion: string;
+  // userArn: string;
   tags: { [key: string]: string };
 }
 
@@ -90,6 +91,10 @@ export class MyEksClusterStack extends cdk.Stack {
     });
 
     nodeGroup.role.addManagedPolicy(iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonEC2ContainerRegistryReadOnly'));
+    cluster.awsAuth.addUserMapping(iam.User.fromUserArn(this, 'User', 'arn:aws:iam::803269230183:user/testTerraform'), {
+      username: 'cluster-admin',
+      groups: ['system:masters'],
+    });
 
     // IAM Role for cluster admin
     const clusterAdminRole = new iam.Role(this, 'AdminRole', {

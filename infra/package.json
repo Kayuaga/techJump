@@ -1,0 +1,16 @@
+{
+  "name": "infra",
+  "version": "1.0.0",
+  "description": "This is kubernetes infrastructure",
+  "main": "index.js",
+  "scripts": {
+    "deploy": "kubectl apply -k $PROJECT_NAME",
+    "change:docker:image": "kubectl set deployments/$PROJECT_NAME $PROJECT_NAME=$DOCKER_IMAGE -n=$CONTEXT",
+    "change:env": "kubectl set env deployments/$PROJECT_NAME"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Kayuaga/techJump.git"
+  },
+  "private": true
+}

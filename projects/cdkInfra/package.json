@@ -9,7 +9,8 @@
     "cdk": "cdk",
     "bootstrap": "cdk bootstrap",
     "deploy-registry": "cdk deploy --app \"npx ts-node bin/cdk_infra.ts\" --require-approval never",
-    "destroy": "cdk destroy --force"
+    "destroy": "cdk destroy --force",
+    "delete-registry": "aws ecr delete-repository --repository-name $REPOSITORY_NAME --force"
   },
   "devDependencies": {
     "@aws-cdk/lambda-layer-kubectl-v31": "^2.0.0",

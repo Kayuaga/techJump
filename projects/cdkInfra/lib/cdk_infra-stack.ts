@@ -16,12 +16,5 @@ export class EcrInfraStack extends cdk.Stack {
       repositoryName: props.repositoryName,
       removalPolicy: cdk.RemovalPolicy.DESTROY, // Automatically delete when stack is deleted
     })
-
-    // The code that defines your stack goes here
-
-    // example resource
-    // const queue = new sqs.Queue(this, 'CdkInfraQueue', {
-    //   visibilityTimeout: cdk.Duration.seconds(300)
-    // });
   }
 }
