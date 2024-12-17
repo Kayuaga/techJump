@@ -56,8 +56,6 @@ jobs:
         run: aws eks update-kubeconfig --name ${{ vars.EKS_CLUSTER }}
       - name: Added namespace value to the scope
         run : echo "NAME_SPACE=${{ env.REPOSITORY_NAME }}" >> $GITHUB_ENV
-      - name: delete name space if it exists
-        run: kubectl delete namespace ${{ env.NAME_SPACE }}
       - name: Prepare deployments
         run: lerna run infra:create:namespace
         env:
