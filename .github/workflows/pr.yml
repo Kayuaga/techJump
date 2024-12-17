@@ -9,7 +9,7 @@ jobs:
       REPOSITORY_NAME: ${{ github.event.pull_request.number }}
     steps:
       - name: cluste name
-        uses: echo ${{ env.EKS_CLUSTER }}
+        run: echo ${{ env.EKS_CLUSTER }}
       - name: checkout
         uses: actions/checkout@v4
       - name: Cashing npm
