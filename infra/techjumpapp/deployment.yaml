@@ -17,8 +17,8 @@ spec:
     spec:
       containers:
         - name: techjumpfront
-          image: techjumpfront
-          imagePullPolicy: Never
+          image: techjumpfront:latest
+          imagePullPolicy: Always
           envFrom:
             - configMapRef:
                 name: techjumpfront-config

@@ -4,9 +4,11 @@
   "description": "This is kubernetes infrastructure",
   "main": "index.js",
   "scripts": {
-    "deploy": "kubectl apply -k $PROJECT_NAME",
-    "change:docker:image": "kubectl set deployments/$PROJECT_NAME $PROJECT_NAME=$DOCKER_IMAGE -n=$CONTEXT",
-    "change:env": "kubectl set env deployments/$PROJECT_NAME"
+    "infra:deploy": "kubectl apply -k $PROJECT_NAME -n=$NAME_SPACE",
+    "infra:change:docker:image": "kubectl set deployments/$PROJECT_NAME $PROJECT_NAME=$DOCKER_IMAGE -n=$NAME_SPACE",
+    "infra:apply:configmap": "kubectl apply -f $PROJECT_NAME/configMap.yaml -n=$NAME_SPACE",
+    "infra:create:namespace": "kubectl create namespace $NAME_SPACE",
+    "infra:update:configmap": "kubectl patch configmap $CONFIG_MAP_NAME --type=merge -p \"{\\\"data\\\": {\\\"$VARIABLE_NAME\\\": \\\"$VALUE\\\"}}\" -n=$NAME_SPACE"
   },
   "repository": {
     "type": "git",

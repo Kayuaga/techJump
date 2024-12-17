@@ -16,8 +16,9 @@
     "docker-push": "docker push $DOCKER_REGISTRY/$REPOSITORY_NAME-$PROJECT_NAME:$TAG",
     "destroy-registry": "lerna run delete-registry --scope cdk_infra",
     "deploy:app": "PROJECT_NAME=techjumpapp lerna run deploy --scope infra",
-    "set:deployment:image": "",
-    "set:deployment:enviroments": ""
+    "update-env": "lerna run change:env --scope infra",
+    "apply:configmap":"lerna run infra:apply:configmap -- -n $NAME_SPACE",
+    "update:image": "DOCKER_IMAGE=$DOCKER_REGISTRY/$REPOSITORY_NAME-$PROJECT_NAME:$TAG lerna run infra:change:docker:image"
   },
   "dependencies": {
     "@kayuaga/ui-kit": "^0.5.5",

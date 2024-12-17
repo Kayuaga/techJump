@@ -46,8 +46,30 @@ jobs:
       - name: Set environment variables
         run: |
           echo "DOCKER_REGISTRY=${{ steps.login-ecr.outputs.registry }}" >> $GITHUB_ENV
-      - name: login registry
-        run: "echo Docker Registry: $DOCKER_REGISTRY"
+      - name:  Install kubectl
+        uses: azure/setup-kubectl@v4
+      - name: Update kubeconfig
+        run: |
+          aws eks update-kubeconfig --name ${{ env.EKS_KLUSTER }} --region ${{ env.AWS_REGION }}
+      - name: Prepare deployments
+        run: |
+          echo "NAME_SPACE=${{ env.REPOSITORY_NAME }}" >> $GITHUB_ENV
+          lerna run infra:create:namespace
+      - name: Apply config maps
+        if: ${{ github.event.action == 'opened' || github.event.action == 'reopened' }}
+        run: lerna run apply:configmap
+      - name: Run deployments to the cluster
+        if: ${{ github.event.action == 'opened' || github.event.action == 'reopened' }}
+        run: lerna run deploy:backend
+      - name: Update config map backends dns names
+        if: ${{ github.event.action == 'opened' || github.event.action == 'reopened' }}
+        run: lerna run update:configmap
+      - name: Deploy frontend app
+        if: ${{ github.event.action == 'opened' || github.event.action == 'reopened' }}
+        run: lerna run deploy:app
+      - name: Run change images
+        if: ${{ github.event.action == 'opened' || github.event.action == 'reopened' }}
+        run: lerna run update:image
       - name: build app
         run: lerna run build
       - name: prepare docker images
