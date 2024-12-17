@@ -7,9 +7,12 @@ jobs:
     runs-on: ubuntu-latest
     env:
       REPOSITORY_NAME: ${{ github.event.pull_request.number }}
+      EKS_CLUSTER: ${{ env.EKS_CLUSTER }}
     steps:
       - name: cluste name
-        run: echo ${{ env.EKS_CLUSTER }}
+        run: |
+          echo ${{ env.EKS_CLUSTER }}
+          echo ${{ env.AWS_REGION}}
       - name: checkout
         uses: actions/checkout@v4
       - name: Cashing npm
