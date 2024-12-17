@@ -10,14 +10,14 @@ jobs:
     steps:
       - name: cluste name
         run: |
-          echo ${{ env.EKS_CLUSTER }}
-          echo ${{ env.AWS_REGION }}
+          echo ${{ secrets.EKS_CLUSTER }}
+          echo ${{ sercets.AWS_REGION }}
       - name: checkout
         uses: actions/checkout@v4
       - name: Cashing npm
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ env.NODE_VERSION }}
+          node-version: ${{ secrets.NODE_VERSION }}
           cache: 'npm'
           cache-dependency-path: package-lock.json
       - name: lerna cache
@@ -53,9 +53,9 @@ jobs:
       - name:  Install kubectl
         uses: azure/setup-kubectl@v4
       - name: log EKS cluster
-        run: echo ${{ env.EKS_CLUSTER }}
+        run: echo ${{ secrets.EKS_CLUSTER }}
       - name: Update kubeconfig
-        run: aws eks update-kubeconfig --name ${{ env.EKS_CLUSTER }}
+        run: aws eks update-kubeconfig --name ${{ secrets.EKS_CLUSTER }}
       - name: Prepare deployments
         run: |
           echo "NAME_SPACE=${{ env.REPOSITORY_NAME }}" >> $GITHUB_ENV
