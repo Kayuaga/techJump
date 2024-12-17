@@ -1,26 +1,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: techjumpfront
+  name: techjumpapp
   labels:
-    app: techjumpfront
+    app: techjumpapp
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: techjumpfront
+      app: techjumpapp
   template:
     metadata:
-      name: techjumpfront
+      name: techjumpapp
       labels:
-        app: techjumpfront
+        app: techjumpapp
     spec:
       containers:
-        - name: techjumpfront
-          image: techjumpfront:latest
+        - name: techjumpapp
+          image: techjumpapp:latest
           imagePullPolicy: Always
           envFrom:
             - configMapRef:
-                name: techjumpfront-config
+                name: techjumpapp-config
       restartPolicy: Always
       
