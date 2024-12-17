@@ -17,7 +17,7 @@
     "docker-push": "docker push $DOCKER_REGISTRY/$REPOSITORY_NAME-$PROJECT_NAME:$TAG",
     "destroy-registry": "lerna run delete-registry --scope cdk_infra",
     "deploy:backends": "PROJECT_NAME=backendtwo lerna run deploy --scope infra",
-    "update:configmap": "VALUE=$SERVICE_URL.$NAME_SPACE lerna run infra:update:configmap --scopre infra",
+    "update:configmap": "VALUE=$SERVICE_URL.$NAME_SPACE lerna run infra:update:configmap --scope infra",
     "update:image": "DOCKER_IMAGE=$DOCKER_REGISTRY/$REPOSITORY_NAME-$PROJECT_NAME:$TAG lerna run infra:change:docker:image"
   },
   "author": "",
