@@ -17,8 +17,8 @@ spec:
     spec:
       containers:
         - name: backendone
-          image: backendone
-          imagePullPolicy: Never
+          image: backendone:latest
+          imagePullPolicy: Always
           env:
             - name: PORT
               value: '3000'
