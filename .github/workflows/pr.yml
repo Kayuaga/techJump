@@ -10,8 +10,8 @@ jobs:
     steps:
       - name: cluste name
         run: |
-          echo ${{ secrets.EKS_CLUSTER }}
-          echo ${{ secrets.AWS_REGION }}
+          echo "${{ secrets.EKS_CLUSTER }}"
+          echo "${{ secrets.AWS_REGION }}"
       - name: checkout
         uses: actions/checkout@v4
       - name: Cashing npm
