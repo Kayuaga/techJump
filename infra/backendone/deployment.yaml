@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: backendone
-          image: baz:latest
+          image: backendone
           imagePullPolicy: Never
           env:
             - name: PORT

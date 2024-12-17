@@ -1,19 +1,23 @@
 {
-  "name": "backendone",
+  "name": "backendtwo",
   "version": "0.3.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "private": true,
   "scripts": {
     "dev": "nodemon app.js",
+    "test": "echo \"TEST in backendTwo\" ",
     "build": "rollup --bundleConfigAsCjs --config",
-    "test": "echo \"TEST in backendOne\" ",
     "create-container": "docker build .",
     "blocker": "node blocker.js",
-    "prepare-infrastructure": "lerna run deploy-registry --scope cdk_infra -- --output cdk.out/backendone",
-    "destroy-infrastructure": "lerna run destroy --scope cdk_infra -- --output cdk.out/backendone --force",
+    "bazfoo": "echo $FOO",
+    "prepare-infrastructure": "lerna run deploy-registry --scope cdk_infra -- --output cdk.out/backendtwo",
+    "destroy-infrastructure": "lerna run destroy --scope cdk_infra -- --output cdk.out/backendtwo --force",
     "docker-build": "docker build -t $DOCKER_REGISTRY/$REPOSITORY_NAME-$PROJECT_NAME:$TAG .",
-    "docker-push": "docker push $DOCKER_REGISTRY/$REPOSITORY_NAME-$PROJECT_NAME:$TAG"
+    "docker-push": "docker push $DOCKER_REGISTRY/$REPOSITORY_NAME-$PROJECT_NAME:$TAG",
+    "destroy-registry": "lerna run delete-registry --scope cdk_infra",
+    "deploy:app": "PROJECT_NAME=backendtwo lerna run deploy --scope infra"
+
   },
   "author": "",
   "license": "ISC",

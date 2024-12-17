@@ -17,12 +17,10 @@ spec:
     spec:
       containers:
         - name: techjumpfront
-          image: techjumpapp:latest
+          image: techjumpfront
           imagePullPolicy: Never
-          env:
-            - name: BACKEND_ONE_URL
-              value: 'http://backendone-service.default'
-            - name: BACKEND_TWO_URL
-              value: 'http://backendtwo-service.default'
+          envFrom:
+            - configMapRef:
+                name: techjumpfront-config
       restartPolicy: Always
       
