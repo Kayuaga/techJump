@@ -48,9 +48,10 @@ jobs:
           echo "DOCKER_REGISTRY=${{ steps.login-ecr.outputs.registry }}" >> $GITHUB_ENV
       - name:  Install kubectl
         uses: azure/setup-kubectl@v4
+      - name: log EKS cluster
+        run: echo ${{ env.EKS_KLUSTER }}
       - name: Update kubeconfig
-        run: |
-          aws eks update-kubeconfig --name ${{ env.EKS_KLUSTER }} --region ${{ env.AWS_REGION }}
+        run: aws eks update-kubeconfig --name ${{ env.EKS_KLUSTER }}
       - name: Prepare deployments
         run: |
           echo "NAME_SPACE=${{ env.REPOSITORY_NAME }}" >> $GITHUB_ENV
