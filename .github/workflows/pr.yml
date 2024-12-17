@@ -58,6 +58,8 @@ jobs:
         run: |
           echo "NAME_SPACE=${{ env.REPOSITORY_NAME }}" >> $GITHUB_ENV
           lerna run infra:create:namespace
+        env:
+          NAME_SPACE=${{ env.REPOSITORY_NAME }}
       - name: Apply config maps
         if: ${{ github.event.action == 'opened' || github.event.action == 'reopened' }}
         run: lerna run apply:configmap
