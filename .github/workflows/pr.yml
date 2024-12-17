@@ -7,6 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       REPOSITORY_NAME: ${{ github.event.pull_request.number }}
+      NX_REJECT_UNKNOWN_LOCAL_CACHE: 0
     steps:
       - name: cluste name
         run: |
