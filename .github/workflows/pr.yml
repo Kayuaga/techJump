@@ -8,6 +8,8 @@ jobs:
     env:
       REPOSITORY_NAME: ${{ github.event.pull_request.number }}
     steps:
+      - name: cluste name
+        uses: echo ${{ env.EKS_CLUSTER }}
       - name: checkout
         uses: actions/checkout@v4
       - name: Cashing npm
@@ -49,9 +51,9 @@ jobs:
       - name:  Install kubectl
         uses: azure/setup-kubectl@v4
       - name: log EKS cluster
-        run: echo ${{ env.EKS_KLUSTER }}
+        run: echo ${{ env.EKS_CLUSTER }}
       - name: Update kubeconfig
-        run: aws eks update-kubeconfig --name ${{ env.EKS_KLUSTER }}
+        run: aws eks update-kubeconfig --name ${{ env.EKS_CLUSTER }}
       - name: Prepare deployments
         run: |
           echo "NAME_SPACE=${{ env.REPOSITORY_NAME }}" >> $GITHUB_ENV
