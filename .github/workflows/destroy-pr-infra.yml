@@ -1,27 +1,24 @@
-name: Build PR
+name: Pull request
 on:
   pull_request:
-    types: [synchronize, labeled, unlabeled, edited]
-  workflow_run:
-    workflows: ["Prepare PR infra"]
-    types:
-      - completed
+    types: [closed]
 
 jobs:
-  build-app:
+  destroy-pr-infrastructure:
     runs-on: ubuntu-latest
     env:
       REPOSITORY_NAME: ${{ github.event.pull_request.number }}
-      NX_REJECT_UNKNOWN_LOCAL_CACHE: 0
     steps:
       - name: checkout
         uses: actions/checkout@v4
       - name: Cashing npm
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ vars.NODE_VERSION }}
+          node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
           cache-dependency-path: package-lock.json
+      - name: install dependencies
+        run: npm ci
       - name: lerna cache
         id: lerna-cache
         uses: actions/cache/restore@v4
@@ -30,31 +27,19 @@ jobs:
             lerna/cache
             packages/*/dist
             projects/*/build
-            projects/*/.next
           key: cache-${{ github.run_id  }}
           restore-keys: |
             ${{ runner.os }}-lerna-${{ github.ref_name }}
             ${{ runner.os }}-lerna-main-
-      - name: install dependencies
-        run: npm ci
       - name: Prepare Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY}}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
           aws-region: eu-north-1
-      - name: Log in to Amazon ECR
-        uses: aws-actions/amazon-ecr-login@v2
-        id: login-ecr
-      - name: Set environment variables
-        run: |
-          echo "DOCKER_REGISTRY=${{ steps.login-ecr.outputs.registry }}" >> $GITHUB_ENV
-      - name: build app
-        run: lerna run build
-      - name: prepare docker images
-        run: lerna run docker-build
-      - name: push docker image
-        run: lerna run docker-push
+      - name: Destroy registry
+        if: ${{github.event.action == 'closed'}}
+        run: npx lerna run destroy-infrastructure
       - name: update cache
         if: always()
         uses: actions/cache/save@v4
@@ -63,7 +48,6 @@ jobs:
             lerna/cache
             packages/*/dist
             projects/*/build
-            projects/*/.next
           key: ${{ runner.os }}-lerna-${{ github.ref_name }}-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('lerna/cache/run.json') }}
 
 

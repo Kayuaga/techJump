@@ -8,19 +8,20 @@
     "watch": "tsc -w",
     "cdk": "cdk",
     "bootstrap": "cdk bootstrap",
-    "deploy-registry": "cdk deploy --app \"npx ts-node bin/cdk_infra.ts\" --require-approval never",
-    "destroy": "cdk destroy --force"
+    "deploy-registry": "cdk deploy --app \"npx ts-node bin/${PROJECT_NAME}-ecr-stack.ts\" --require-approval never",
+    "deploy-eks-stack": "cdk deploy --app \"npx ts-node bin/eks_stack.ts\" --require-approval never",
+    "destroy": "cdk destroy --force",
+    "delete-registry": "aws ecr delete-repository --repository-name $REPOSITORY_NAME --force"
   },
   "devDependencies": {
+    "@aws-cdk/lambda-layer-kubectl-v31": "^2.0.0",
     "@types/jest": "29.5.14",
     "@types/node": "22.7.9",
     "jest": "29.7.0",
     "ts-jest": "29.2.5",
     "aws-cdk": "2.171.1",
     "ts-node": "10.9.2",
-    "typescript": "~5.6.3"
-  },
-  "dependencies": {
+    "typescript": "~5.6.3",
     "aws-cdk-lib": "2.171.1",
     "constructs": "10.4.2"
   }

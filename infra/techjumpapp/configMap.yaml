@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: techjumpapp-config
+data:
+  BACKEND_ONE_URL: "http://backendone-service.default.svc.cluster.local"
+  BACKEND_TWO_URL: "http://backendtwo-service.default.svc.cluster.local"

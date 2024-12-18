@@ -11,10 +11,14 @@
     "create-container": "docker build .",
     "blocker": "node blocker.js",
     "bazfoo": "echo $FOO",
-    "prepare-registry": "lerna run deploy-registry --scope cdk_infra -- --output cdk.out/backendtwo",
-    "destroy-registry": "lerna run destroy --scope cdk_infra",
+    "prepare-infrastructure": "lerna run deploy-registry --scope cdk_infra -- --output cdk.out/backendtwo",
+    "destroy-infrastructure": "lerna run destroy --scope cdk_infra -- --output cdk.out/backendtwo --force",
     "docker-build": "docker build -t $DOCKER_REGISTRY/$REPOSITORY_NAME-$PROJECT_NAME:$TAG .",
-    "docker-push": "docker push $DOCKER_REGISTRY/$REPOSITORY_NAME-$PROJECT_NAME:$TAG"
+    "docker-push": "docker push $DOCKER_REGISTRY/$REPOSITORY_NAME-$PROJECT_NAME:$TAG",
+    "destroy-registry": "lerna run delete-registry --scope cdk_infra",
+    "deploy:backend": "PROJECT_NAME=backendtwo lerna run infra:deploy --scope infra",
+    "update:configmap": "VALUE=$SERVICE_URL.$NAME_SPACE lerna run infra:update:configmap --scope infra",
+    "update:image": "DOCKER_IMAGE=$DOCKER_REGISTRY/$REPOSITORY_NAME-$PROJECT_NAME:$TAG lerna run infra:change:docker:image"
   },
   "author": "",
   "license": "ISC",

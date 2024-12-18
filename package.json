@@ -5,15 +5,12 @@
     "packages/*",
     "packages/utils/*",
     "packages/components/*/**",
-    "projects/*"
+    "projects/*",
+    "infra"
   ],
-  "dependencies": {
-    "@babel/preset-react": "7.25.9",
-    "aws-cdk": "^2.171.1",
-    "aws-cdk-lib": "^2.171.1",
-    "constructs": "^10.4.2"
-  },
   "devDependencies": {
+    "@babel/preset-react": "7.25.9",
+    "constructs": "^10.4.2",
     "@rollup/plugin-babel": "6.0.4",
     "@rollup/plugin-commonjs": "28.0.0",
     "@rollup/plugin-json": "6.1.0",
