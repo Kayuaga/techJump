@@ -5,7 +5,7 @@ import {MyEksClusterStack} from "../lib/eks_Cluster";
 
 const app = new cdk.App();
 
-new EcrInfraStack(app, 'backendone', {
+new EcrInfraStack(app, `backendone-${process.env.REPOSITORY_NAME}-${process.env.PROJECT_NAME}`, {
     repositoryName: `${process.env.REPOSITORY_NAME}-${process.env.PROJECT_NAME}`,
     repoId: process.env.REPOSITORY_ID as string,
 });
