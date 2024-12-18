@@ -1,0 +1,87 @@
+name: Prepare PR infra
+on:
+  pull_request:
+    types: [opened, reopened]
+jobs:
+  prepair_infra:
+      runs-on: ubuntu-latest
+      env:
+        REPOSITORY_NAME: ${{ github.event.pull_request.number }}
+        NX_REJECT_UNKNOWN_LOCAL_CACHE: 0
+      steps:
+        - name: checkout
+          uses: actions/checkout@v4
+        - name: Cashing npm
+          uses: actions/setup-node@v4
+          with:
+            node-version: ${{ vars.NODE_VERSION }}
+            cache: 'npm'
+            cache-dependency-path: package-lock.json
+        - name: lerna cache
+          id: lerna-cache
+          uses: actions/cache/restore@v4
+          with:
+            path: |
+              lerna/cache
+              packages/*/dist
+              projects/*/build
+              projects/*/.next
+            key: cache-${{ github.run_id  }}
+            restore-keys: |
+              ${{ runner.os }}-lerna-${{ github.ref_name }}
+              ${{ runner.os }}-lerna-main-
+        - name: install dependencies
+          run: npm ci
+        - name: Prepare Credentials
+          uses: aws-actions/configure-aws-credentials@v4
+          with:
+            aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY}}
+            aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+            aws-region: eu-north-1
+        - name: deploying
+          if: ${{ github.event.action == 'opened' || github.event.action == 'reopened' }}
+          run: lerna run prepare-infrastructure
+        - name: Log in to Amazon ECR
+          uses: aws-actions/amazon-ecr-login@v2
+          id: login-ecr
+        - name: Set environment variables
+          run: |
+            echo "DOCKER_REGISTRY=${{ steps.login-ecr.outputs.registry }}" >> $GITHUB_ENV
+        - name: Install kubectl
+          uses: azure/setup-kubectl@v4
+        - name: Update kubeconfig
+          if: ${{ github.event.action == 'opened' || github.event.action == 'reopened' }}
+          run: aws eks update-kubeconfig --name ${{ vars.EKS_CLUSTER }}
+        - name: Added namespace value to the scope
+          if: ${{ github.event.action == 'opened' || github.event.action == 'reopened' }}
+          run: echo "NAME_SPACE=${{ env.REPOSITORY_NAME }}" >> $GITHUB_ENV
+        - name: Prepare deployments
+          if: ${{ github.event.action == 'opened' || github.event.action == 'reopened' }}
+          run: lerna run infra:create:namespace
+          env:
+            NAME_SPACE: ${{ env.REPOSITORY_NAME }}
+        - name: Apply config maps
+          if: ${{ github.event.action == 'opened' || github.event.action == 'reopened' }}
+          run: lerna run apply:configmap
+        - name: Run deployments to the cluster
+          if: ${{ github.event.action == 'opened' || github.event.action == 'reopened' }}
+          run: lerna run deploy:backend
+        - name: Update config map backends dns names
+          if: ${{ github.event.action == 'opened' || github.event.action == 'reopened' }}
+          run: lerna run update:configmap
+        - name: Deploy frontend app
+          if: ${{ github.event.action == 'opened' || github.event.action == 'reopened' }}
+          run: lerna run deploy:app
+        - name: Run change images
+          if: ${{ github.event.action == 'opened' || github.event.action == 'reopened' }}
+          run: lerna run update:image
+        - name: update cache
+          if: always()
+          uses: actions/cache/save@v4
+          with:
+            path: |
+              lerna/cache
+              packages/*/dist
+              projects/*/build
+              projects/*/.next
+            key: ${{ runner.os }}-lerna-${{ github.ref_name }}-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('lerna/cache/run.json') }}
