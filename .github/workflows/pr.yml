@@ -54,10 +54,13 @@ jobs:
       - name:  Install kubectl
         uses: azure/setup-kubectl@v4
       - name: Update kubeconfig
+        if: ${{ github.event.action == 'opened' || github.event.action == 'reopened' }}
         run: aws eks update-kubeconfig --name ${{ vars.EKS_CLUSTER }}
       - name: Added namespace value to the scope
+        if: ${{ github.event.action == 'opened' || github.event.action == 'reopened' }}
         run : echo "NAME_SPACE=${{ env.REPOSITORY_NAME }}" >> $GITHUB_ENV
       - name: Prepare deployments
+        if: ${{ github.event.action == 'opened' || github.event.action == 'reopened' }}
         run: lerna run infra:create:namespace
         env:
           NAME_SPACE: ${{ env.REPOSITORY_NAME }}
