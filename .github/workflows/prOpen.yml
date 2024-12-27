@@ -1,7 +1,7 @@
 name: Pull request opened
 on:
   pull_request:
-    types: [open,reopened]
+    types: [opened,reopened]
 concurrency:
   group: ${{ github.head_ref || github.run_id }}-pr
   cancel-in-progress: false
