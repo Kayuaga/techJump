@@ -1,0 +1,24 @@
+name: PR Updated
+on:
+  pull_request:
+    types: [synchronize]
+  workflow_run:
+    workflows:
+      - Pull request opened
+    types:
+      - completed
+concurrency:
+  group: ${{ github.head_ref || github.run_id }}-pr
+  cancel-in-progress: false
+
+jobs:
+  build-app:
+    steps:
+      - name: Running scripts for PR updated!
+        run: echo "Im running"
+      - name: I want to sleep too
+        run: sleep 5
+      - name: I slept well!
+        run: echo "I slept well!"
+
+

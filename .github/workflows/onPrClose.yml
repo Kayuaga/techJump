@@ -1,0 +1,18 @@
+name: on close workflow
+on:
+  pull_request:
+    types: [closed]
+concurrency:
+  group: ${{ github.head_ref || github.run_id }}-pr
+  cancel-in-progress: false
+
+jobs:
+  running-on-close:
+    runs-on: ubuntu-latest
+    steps:
+      - name: lets run some script
+        run: echo "im running for on pr closed"
+      - name: lets sleep
+        run: sleep 10
+      - name: I have slept well
+        run: echo "I have slept well"
