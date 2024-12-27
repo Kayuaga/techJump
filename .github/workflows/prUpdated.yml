@@ -1,7 +1,7 @@
 name: PR Updated
 on:
   workflow_run:
-    workflows: [pull-request-opened]
+    workflows: ["testpr"]
     types: [completed]
 
 concurrency:
