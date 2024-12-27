@@ -2,6 +2,11 @@ name: Pull request
 on:
   pull_request:
     types: [closed]
+  workflow_dispatch:
+    inputs:
+      pr-number:
+        required: true
+        description: "Pull request number"
 
 jobs:
   destroy-pr-infrastructure:
