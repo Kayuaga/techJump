@@ -1,9 +1,7 @@
 name: PR Updated
 on:
-  pull_request:
-    types: [synchronize]
   workflow_run:
-    workflows: ["pull-request-opened"]
+    workflows: [pull-request-opened]
     types: [completed]
 
 concurrency:
