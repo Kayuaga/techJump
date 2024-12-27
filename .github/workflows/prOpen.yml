@@ -8,6 +8,7 @@ concurrency:
 
 jobs:
   build-app:
+    runs-on: ubuntu-latest
     steps:
       - name: Running scripts for PR
         run: echo "Im running"
