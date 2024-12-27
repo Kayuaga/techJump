@@ -1,7 +1,7 @@
 name: PR Updated
 on:
   workflow_run:
-    workflows: ["testpr"]
+    workflows: [testpr]
     types: [completed]
 
 concurrency:
