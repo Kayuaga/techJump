@@ -3,10 +3,8 @@ on:
   pull_request:
     types: [synchronize]
   workflow_run:
-    workflows:
-      - pull-request-opened
-    types:
-      - completed
+    workflows: ["pull-request-opened"]
+    types: [completed]
 
 concurrency:
   group: ${{ github.head_ref || github.run_id }}-pr
