@@ -14,7 +14,7 @@ jobs:
   build-app:
     runs-on: ubuntu-latest
     steps:
-      - name: Running scripts for PR updated!
+      - name: Running scripts for PR updated1!
         run: echo "Im running"
       - name: I want to sleep too
         run: sleep 5
