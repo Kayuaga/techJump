@@ -4,9 +4,9 @@ on:
     types: [synchronize]
   workflow_run:
     workflows:
-      - Pull request opened
+    - pull-request-opened
     types:
-      - completed
+    - completed
 concurrency:
   group: ${{ github.head_ref || github.run_id }}-pr
   cancel-in-progress: false
