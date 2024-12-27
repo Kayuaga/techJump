@@ -1,0 +1,19 @@
+name: Pull request opened
+on:
+  pull_request:
+    types: [open,reopened]
+concurrency:
+  group: ${{ github.head_ref || github.run_id }}-pr
+  cancel-in-progress: false
+
+jobs:
+  build-app:
+    steps:
+      - name: Running scripts for PR
+        run: echo "Im running"
+      - name: I want to sleep too
+        run: sleep 5
+      - name: I slept well!
+        run: echo "I slept well!"
+
+
