@@ -1,9 +1,10 @@
 name: Build PR
 on:
   pull_request:
-    types: [synchronize, labeled, unlabeled, edited]
+    types: [synchronize, labeled, unlabeled, edited ]
   workflow_run:
-    workflows: ["Prepare PR infra"]
+    workflows:
+      - Prepare PR infra
     types:
       - completed
 
