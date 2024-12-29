@@ -1,0 +1,20 @@
+name: PR Updated
+on:
+  workflow_run:
+    workflows: [prepare-pr-infra]
+    types: [completed]
+
+concurrency:
+  group: ${{ github.head_ref || github.run_id }}-pr
+  cancel-in-progress: false
+
+jobs:
+  build-app:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Running scripts for PR updated1!
+        run: echo "Im running"
+      - name: I want to sleep too
+        run: sleep 5
+      - name: I slept well!
+        run: echo "I slept well!"
