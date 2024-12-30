@@ -2,12 +2,14 @@ name: prepare-pr-infra
 on:
   pull_request:
     types: [opened, reopened]
+concurrency:
+  group: ${{ github.head_ref || github.run_id }}-pr
+  cancel-in-progress: true
 jobs:
   prepair_infra:
     runs-on: ubuntu-latest
     env:
       REPOSITORY_NAME: ${{ github.event.pull_request.number }}
-      NX_REJECT_UNKNOWN_LOCAL_CACHE: 0
     steps:
       - name: checkout
         uses: actions/checkout@v4
