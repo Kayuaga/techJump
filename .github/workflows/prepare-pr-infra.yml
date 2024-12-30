@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Running scripts for PR
-        run: echo "Im running test"
+        run: echo "Im running test3"
       - name: I want to sleep too
         run: sleep 5
       - name: I slept well!
