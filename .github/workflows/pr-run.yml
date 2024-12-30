@@ -8,14 +8,14 @@ on:
 
 concurrency:
   group: ${{ github.head_ref || github.run_id }}-pr
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   build-app:
     runs-on: ubuntu-latest
     steps:
       - name: Running scripts for PR updated267671!
-        run: echo "Logging PR action ${{ github.event }}"
+        run: echo ${{ github.event }}
       - name: I want to sleep too
         run: sleep 5
       - name: I slept well!
