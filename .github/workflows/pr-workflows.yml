@@ -1,30 +1,30 @@
-name: pr-workflows
-on:
-  pull_request:
-    types: [ opened, reopened, synchronize, closed ]
-concurrency:
-  group: ${{ github.head_ref || github.run_id }}-pr-test
-  cancel-in-progress: false
-
-jobs:
-  prepare-infra:
-    runs-on: ubuntu-latest
-    if: ${{ github.event.action == 'opened' || github.event.action == 'reopened' }}
-    steps:
-      - name: Running scripts for PR
-        run: echo "Im running"
-      - name: I want to sleep too
-        run: sleep 3
-      - name: I slept well!1
-        run: echo "I slept well!"
-  build-and-deploy-app:
-    runs-on: ubuntu-latest
-    needs: prepare-infra
-    if: ${{ github.event.action == 'synchronize' }}
-    steps:
-      - name: Ru
-        run: echo "Im running"
-      - name: I want to sleep too
-        run: sleep 3
-      - name: I slept well!
-        run: echo "I slept well!"
+#name: pr-workflows
+#on:
+#  pull_request:
+#    types: [ opened, reopened, synchronize, closed ]
+#concurrency:
+#  group: ${{ github.head_ref || github.run_id }}-pr-test
+#  cancel-in-progress: false
+#
+#jobs:
+#  prepare-infra:
+#    runs-on: ubuntu-latest
+#    if: ${{ github.event.action == 'opened' || github.event.action == 'reopened' }}
+#    steps:
+#      - name: Running scripts for PR
+#        run: echo "Im running"
+#      - name: I want to sleep too
+#        run: sleep 3
+#      - name: I slept well!1
+#        run: echo "I slept well!"
+#  build-and-deploy-app:
+#    runs-on: ubuntu-latest
+#    needs: prepare-infra
+#    if: ${{ github.event.action == 'synchronize' }}
+#    steps:
+#      - name: Ru
+#        run: echo "Im running"
+#      - name: I want to sleep too
+#        run: sleep 3
+#      - name: I slept well!
+#        run: echo "I slept well!"

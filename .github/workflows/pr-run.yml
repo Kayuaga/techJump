@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Running scripts for PR updated267671!
-        run: echo "Im running"
+        run: echo "Logging PR action ${{ github.event }}"
       - name: I want to sleep too
         run: sleep 5
       - name: I slept well!
