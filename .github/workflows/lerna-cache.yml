@@ -6,8 +6,6 @@ env:
 jobs:
   restore-cache:
     runs-on: ubuntu-latest
-    outputs:
-      cache-hit: ${{ steps.cache-restore.outputs.cache-hit }} # Optional cache-hit output
     steps:
       - name: checkout
         uses: actions/checkout@v4
@@ -24,7 +22,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-lerna-${{ github.ref_name }}
             ${{ runner.os }}-lerna-main-
-
   save-cache:
     if: always() # Ensure it runs at the end
     runs-on: ubuntu-latest
