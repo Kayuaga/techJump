@@ -9,6 +9,8 @@ jobs:
     outputs:
       cache-hit: ${{ steps.cache-restore.outputs.cache-hit }} # Optional cache-hit output
     steps:
+      - name: checkout
+        uses: actions/checkout@v4
       - name: Restore cache
         id: lerna-cache
         uses: actions/cache/restore@v4
@@ -27,6 +29,8 @@ jobs:
     if: always() # Ensure it runs at the end
     runs-on: ubuntu-latest
     steps:
+    - name: checkout
+      uses: actions/checkout@v4
     - name: Save Cache
       uses: actions/cache/save@v4
       with:
