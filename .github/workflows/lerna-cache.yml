@@ -1,0 +1,39 @@
+name: lerna-cache
+on:
+  workflow_call:
+env:
+  NX_REJECT_UNKNOWN_LOCAL_CACHE: 0
+jobs:
+  restore-cache:
+    runs-on: ubuntu-latest
+    outputs:
+      cache-hit: ${{ steps.cache-restore.outputs.cache-hit }} # Optional cache-hit output
+    steps:
+      - name: Restore cache
+        id: lerna-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            lerna/cache
+            packages/*/dist
+            projects/*/build
+            projects/*/.next
+          key: cache-${{ github.run_id  }}
+          restore-keys: |
+            ${{ runner.os }}-lerna-${{ github.ref_name }}
+            ${{ runner.os }}-lerna-main-
+
+  save-cache:
+    if: always() # Ensure it runs at the end
+    runs-on: ubuntu-latest
+    steps:
+    - name: Save Cache
+      uses: actions/cache/save@v4
+      with:
+        path: |
+          lerna/cache
+          packages/*/dist
+          projects/*/build
+          projects/*/.next
+        key: ${{ runner.os }}-lerna-${{ github.ref_name }}-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('lerna/cache/run.json') }}
+

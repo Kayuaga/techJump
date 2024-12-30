@@ -7,6 +7,9 @@ on:
       pr-number:
         required: true
         description: "Pull request number"
+concurrency:
+  group: ${{ github.head_ref || github.run_id }}-pr
+  cancel-in-progress: false
 
 jobs:
   destroy-pr-infrastructure:
@@ -25,17 +28,7 @@ jobs:
       - name: install dependencies
         run: npm ci
       - name: lerna cache
-        id: lerna-cache
-        uses: actions/cache/restore@v4
-        with:
-          path: |
-            lerna/cache
-            packages/*/dist
-            projects/*/build
-          key: cache-${{ github.run_id  }}
-          restore-keys: |
-            ${{ runner.os }}-lerna-${{ github.ref_name }}
-            ${{ runner.os }}-lerna-main-
+        uses: ./github/workflows/lerna-cache.yml
       - name: Prepare Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -43,18 +36,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
           aws-region: eu-north-1
       - name: Destroy registry
-        if: ${{github.event.action == 'closed'}}
         run: npx lerna run destroy-infrastructure
-      - name: update cache
-        if: always()
-        uses: actions/cache/save@v4
-        with:
-          path: |
-            lerna/cache
-            packages/*/dist
-            projects/*/build
-          key: ${{ runner.os }}-lerna-${{ github.ref_name }}-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('lerna/cache/run.json') }}
-
 
 
 

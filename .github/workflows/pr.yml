@@ -1,12 +1,13 @@
 name: Build PR
 on:
-  pull_request:
-    types: [synchronize, labeled, unlabeled, edited ]
   workflow_run:
-    workflows:
-      - Prepare PR infra
-    types:
-      - completed
+    workflows: [prepare-pr-infra]
+    types: [completed]
+  pull_request:
+    types: [synchronize]
+concurrency:
+  group: ${{ github.head_ref || github.run_id }}-pr
+  cancel-in-progress: false
 
 jobs:
   build-app:
@@ -24,18 +25,7 @@ jobs:
           cache: 'npm'
           cache-dependency-path: package-lock.json
       - name: lerna cache
-        id: lerna-cache
-        uses: actions/cache/restore@v4
-        with:
-          path: |
-            lerna/cache
-            packages/*/dist
-            projects/*/build
-            projects/*/.next
-          key: cache-${{ github.run_id  }}
-          restore-keys: |
-            ${{ runner.os }}-lerna-${{ github.ref_name }}
-            ${{ runner.os }}-lerna-main-
+        uses: ./github/workflows/lerna-cache.yml
       - name: install dependencies
         run: npm ci
       - name: Prepare Credentials
@@ -56,16 +46,6 @@ jobs:
         run: lerna run docker-build
       - name: push docker image
         run: lerna run docker-push
-      - name: update cache
-        if: always()
-        uses: actions/cache/save@v4
-        with:
-          path: |
-            lerna/cache
-            packages/*/dist
-            projects/*/build
-            projects/*/.next
-          key: ${{ runner.os }}-lerna-${{ github.ref_name }}-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('lerna/cache/run.json') }}
 
 
 

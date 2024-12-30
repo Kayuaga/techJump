@@ -1,18 +1,55 @@
 name: prepare-pr-infra
 on:
   pull_request:
-    types: [opened,reopened]
-concurrency:
-  group: ${{ github.head_ref || github.run_id }}-pr
-  cancel-in-progress: true
-
+    types: [opened, reopened]
 jobs:
-  build-app:
+  prepair_infra:
     runs-on: ubuntu-latest
+    env:
+      REPOSITORY_NAME: ${{ github.event.pull_request.number }}
+      NX_REJECT_UNKNOWN_LOCAL_CACHE: 0
     steps:
-      - name: Running scripts for PR
-        run: echo "Im running test3"
-      - name: I want to sleep too
-        run: sleep 5
-      - name: I slept well!
-        run: echo "I slept well!"
+      - name: checkout
+        uses: actions/checkout@v4
+      - name: Cashing npm
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ vars.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: package-lock.json
+      - name: lerna cache
+        uses: ./github/workflows/lerna-cache.yml
+      - name: install dependencies
+        run: npm ci
+      - name: Prepare Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY}}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+          aws-region: eu-north-1
+      - name: prepare infrastructure
+        run: lerna run prepare-infrastructure
+      - name: Log in to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v2
+        id: login-ecr
+      - name: Set environment variables
+        run: |
+          echo "DOCKER_REGISTRY=${{ steps.login-ecr.outputs.registry }}" >> $GITHUB_ENV
+      - name: Install kubectl
+        uses: azure/setup-kubectl@v4
+      - name: Update kubeconfig
+        run: aws eks update-kubeconfig --name ${{ vars.EKS_CLUSTER }}
+      - name: Added namespace value to the scope
+        run: echo "NAME_SPACE=pr-${{ env.REPOSITORY_NAME }}-test" >> $GITHUB_ENV
+      - name: Prepare deployments
+        run: lerna run infra:create:namespace
+      - name: Apply config maps
+        run: lerna run apply:configmap
+      - name: Run deployments to the cluster
+        run: lerna run deploy:backend
+      - name: Update config map backends dns names
+        run: lerna run update:configmap
+      - name: Deploy frontend app
+        run: lerna run deploy:app
+      - name: Run change images in config maps
+        run: lerna run update:image
