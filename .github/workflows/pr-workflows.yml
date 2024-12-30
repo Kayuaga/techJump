@@ -15,7 +15,7 @@ jobs:
         run: echo "Im running"
       - name: I want to sleep too
         run: sleep 3
-      - name: I slept well!
+      - name: I slept well!1
         run: echo "I slept well!"
   build-and-deploy-app:
     runs-on: ubuntu-latest
