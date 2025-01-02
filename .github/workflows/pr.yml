@@ -14,7 +14,7 @@ jobs:
       NX_REJECT_UNKNOWN_LOCAL_CACHE: 0
     steps:
       - name: checkout
-      - uses: actions/checkout@v4
+        uses: actions/checkout@v4
       - name: Build and push app
         uses: ./.github/actions/build-and-push
 
