@@ -51,3 +51,11 @@ jobs:
         run: lerna run update:image
       - name: save lerna cache
         uses: ./.github/actions/save-lerna-cache
+  build-app:
+    runs-on: ubuntu-latest
+    env:
+      REPOSITORY_NAME: ${{ github.event.pull_request.number }}
+    steps:
+      - name: Build and push app
+        uses: ./.github/actions/build-and-push
+
