@@ -15,16 +15,10 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v4
-      - name: Cashing npm
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-          cache-dependency-path: package-lock.json
+      - name: Set up node and npm
+        uses: ./.github/actions/setup-node-npm
       - name: lerna cache
         uses: ./github/workflows/lerna-cache.yml
-      - name: install dependencies
-        run: npm ci
       - name: run scripts to test lerna cache
         run: lerna run blocker
       - name: update cache
@@ -38,20 +32,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: check env variables
-        run: echo ${{ env }}
       - name: checkout
         uses: actions/checkout@v4
-      - name: Cashing npm
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-          cache-dependency-path: package-lock.json
+      - name: Set up node and npm
+        uses: ./.github/actions/setup-node-npm
       - name: lerna cache
-        uses: ./github/workflows/lerna-cache.yml
-      - name: install dependencies
-        run: npm ci
+        uses: ./.github/actions/restore-lerna-cache
       - name: run scripts to test lerna cache
         run: lerna run blocker --verbose
       - name: test scripts
@@ -64,3 +50,5 @@ jobs:
         run: echo 'DEPLOYING !!!!!!1111'
       - name: Check lernas cache files
         run: ls lerna/*
+      - name: save lerna cache
+        uses: ./.github/actions/save-lerna-cache

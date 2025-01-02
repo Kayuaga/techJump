@@ -19,16 +19,10 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v4
-      - name: Cashing npm
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-          cache-dependency-path: package-lock.json
-      - name: install dependencies
-        run: npm ci
+      - name: Set up node and npm
+        uses: ./.github/actions/setup-node-npm
       - name: lerna cache
-        uses: ./github/workflows/lerna-cache.yml
+        uses: ./.github/actions/restore-lerna-cache
       - name: Prepare Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:

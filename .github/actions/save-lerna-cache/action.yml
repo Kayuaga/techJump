@@ -1,0 +1,14 @@
+name: Save lerna cache
+description: This action saves lerna's cache
+runs:
+  using: composite
+  steps:
+    - name: Save Cache
+      uses: actions/cache/save@v4
+      with:
+        path: |
+          lerna/cache
+          packages/*/dist
+          projects/*/build
+          projects/*/.next
+        key: ${{ runner.os }}-lerna-${{ github.ref_name }}-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('lerna/cache/run.json') }}
