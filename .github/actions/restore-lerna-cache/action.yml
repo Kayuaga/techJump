@@ -4,6 +4,7 @@ runs:
   using: composite
   steps:
     - name: Restore cache
+      shell: bash
       id: lerna-cache
       uses: actions/cache/restore@v4
       with:

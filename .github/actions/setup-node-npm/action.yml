@@ -4,6 +4,7 @@ runs:
   using: composite
   steps:
     - name: Set up node and cache global npm
+      shell: bash
       uses: actions/setup-node@v4
       with:
         node-version: ${{ env.NODE_VERSION }}

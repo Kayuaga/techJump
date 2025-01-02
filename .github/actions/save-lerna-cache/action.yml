@@ -4,6 +4,7 @@ runs:
   using: composite
   steps:
     - name: Save Cache
+      shell: bash
       uses: actions/cache/save@v4
       with:
         path: |
