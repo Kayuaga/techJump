@@ -1,0 +1,16 @@
+name: Set up node
+description: This action sets up node version, caches node modules and installs them
+runs:
+  using: composite
+  steps:
+    - name: Set up node and cache global npm
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        registry-url: 'https://npm.pkg.github.com'
+        scope: '@kayuaga'
+        cache: 'npm'
+        cache-dependency-path: package-lock.json
+    - name: install dependencies
+      shell: bash
+      run: npm ci

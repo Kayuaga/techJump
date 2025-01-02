@@ -15,26 +15,10 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v4
-      - name: Cashing npm
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-          cache-dependency-path: package-lock.json
+      - name: Set up node and npm
+        uses: ./.github/actions/setup-node-npm
       - name: lerna cache
-        id: lerna-cache
-        uses: actions/cache/restore@v4
-        with:
-          path: |
-            lerna/cache
-            packages/*/dist
-            projects/*/build
-          key: cache-${{ github.run_id  }}
-          restore-keys: |
-            ${{ runner.os }}-lerna-${{ github.ref_name }}
-            ${{ runner.os }}-lerna-main-
-      - name: install dependencies
-        run: npm ci
+        uses: ./github/workflows/lerna-cache.yml
       - name: run scripts to test lerna cache
         run: lerna run blocker
       - name: update cache
@@ -46,33 +30,14 @@ jobs:
 
   run-scripts-main:
     runs-on: ubuntu-latest
-    env:
-      NX_REJECT_UNKNOWN_LOCAL_CACHE: 0
+
     steps:
-      - name: check env variables
-        run: echo ${{ env }}
       - name: checkout
         uses: actions/checkout@v4
-      - name: Cashing npm
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-          cache-dependency-path: package-lock.json
+      - name: Set up node and npm
+        uses: ./.github/actions/setup-node-npm
       - name: lerna cache
-        id: lerna-cache
-        uses: actions/cache/restore@v4
-        with:
-          path: |
-            lerna/cache
-            packages/*/dist
-            projects/*/build
-          key: cache-${{ github.run_id  }}-new
-          restore-keys: |
-            cache-${{ runner.os }}-lerna-${{ github.ref_name }}
-            cache-${{ runner.os }}-lerna-main-
-      - name: install dependencies
-        run: npm ci
+        uses: ./.github/actions/restore-lerna-cache
       - name: run scripts to test lerna cache
         run: lerna run blocker --verbose
       - name: test scripts
@@ -85,15 +50,5 @@ jobs:
         run: echo 'DEPLOYING !!!!!!1111'
       - name: Check lernas cache files
         run: ls lerna/*
-      - name: update cache
-        if: always()
-        uses: actions/cache/save@v4
-        with:
-          path: |
-            lerna/cache
-            packages/*/dist
-            projects/*/build
-          key: ${{ runner.os }}-lerna-${{ github.ref_name }}-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('lerna/cache/run.json') }}
-
-
-
+      - name: save lerna cache
+        uses: ./.github/actions/save-lerna-cache

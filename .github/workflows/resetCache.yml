@@ -9,19 +9,13 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v4
-      - name: Cashing npm
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-          cache-dependency-path: package-lock.json
+      - name: Set up node and npm
+        uses: ./.github/actions/setup-node-npm
       - name: install deps
         run: npm ci
       - name: nx reset
         run: npx nx reset
-      - name: make new cache
-        uses: actions/cache/save@v4
-        with:
-          path: lerna/cache
-          key: ${{ runner.os }}-lerna-${{ github.ref_name }}-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('lerna/cache') }}
+      - name: make new lerna cache
+        uses: ./.github/actions/save-lerna-cache
+
 

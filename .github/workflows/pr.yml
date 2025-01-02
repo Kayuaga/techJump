@@ -1,0 +1,49 @@
+name: Build PR
+on:
+  workflow_run:
+    workflows: [prepare-pr-infra]
+    types: [completed]
+  pull_request:
+    types: [synchronize]
+concurrency:
+  group: ${{ github.head_ref || github.run_id }}-pr
+  cancel-in-progress: false
+
+jobs:
+  build-app:
+    runs-on: ubuntu-latest
+    env:
+      REPOSITORY_NAME: ${{ github.event.pull_request.number }}
+      NX_REJECT_UNKNOWN_LOCAL_CACHE: 0
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+      - name: Set up node and npm
+        uses: ./.github/actions/setup-node-npm
+      - name: lerna cache
+        uses: ./.github/actions/restore-lerna-cache
+      - name: Prepare Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY}}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+          aws-region: eu-north-1
+      - name: Log in to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v2
+        id: login-ecr
+      - name: Set environment variables
+        run: |
+          echo "DOCKER_REGISTRY=${{ steps.login-ecr.outputs.registry }}" >> $GITHUB_ENV
+      - name: build app
+        run: lerna run build
+      - name: prepare docker images
+        run: lerna run docker-build
+      - name: push docker image
+        run: lerna run docker-push
+      - name: save lerna cache
+        uses: ./.github/actions/save-lerna-cache
+
+
+
+
+

@@ -1,0 +1,18 @@
+{
+  "name": "infra",
+  "version": "1.0.0",
+  "description": "This is kubernetes infrastructure",
+  "main": "index.js",
+  "scripts": {
+    "infra:deploy": "kubectl apply -k $PROJECT_NAME -n=$NAME_SPACE",
+    "infra:change:docker:image": "kubectl set image deployments/$PROJECT_NAME $PROJECT_NAME=$DOCKER_IMAGE -n=$NAME_SPACE",
+    "infra:apply:configmap": "kubectl apply -f $PROJECT_NAME/configMap.yaml -n=$NAME_SPACE",
+    "infra:create:namespace": "kubectl create namespace $NAME_SPACE",
+    "infra:update:configmap": "chmod +x ./scripts/patchConfigMap.sh && ./scripts/patchConfigMap.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Kayuaga/techJump.git"
+  },
+  "private": true
+}
