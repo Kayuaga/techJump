@@ -6,7 +6,6 @@ runs:
     - name: Set up node and npm
       uses: ./.github/actions/setup-node-npm
     - name: lerna cache
-      shell: bash
       uses: ./.github/actions/restore-lerna-cache
     - name: Prepare Credentials
       uses: aws-actions/configure-aws-credentials@v4
