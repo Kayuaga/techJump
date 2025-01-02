@@ -3,8 +3,6 @@ description: This action builds and push artifacts to ECR registry
 runs:
   using: composite
   steps:
-    - name: checkout
-      uses: actions/checkout@v4
     - name: Set up node and npm
       uses: ./.github/actions/setup-node-npm
     - name: lerna cache

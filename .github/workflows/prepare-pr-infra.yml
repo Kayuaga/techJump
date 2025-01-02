@@ -56,6 +56,8 @@ jobs:
     env:
       REPOSITORY_NAME: ${{ github.event.pull_request.number }}
     steps:
+      - name: checkout
+        uses: actions/checkout@v4
       - name: Build and push app
         uses: ./.github/actions/build-and-push
 
