@@ -14,7 +14,7 @@ jobs:
       NX_REJECT_UNKNOWN_LOCAL_CACHE: 0
     steps:
       - name: Added namespace value to the scope
-      - run: echo "NAME_SPACE=pr-${{ env.REPOSITORY_NAME }}-test" >> $GITHUB_ENV
+        run: echo "NAME_SPACE=pr-${{ env.REPOSITORY_NAME }}-test" >> $GITHUB_ENV
       - name: checkout
         uses: actions/checkout@v4
       - name: Build and push app
