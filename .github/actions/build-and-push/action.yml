@@ -1,5 +1,15 @@
 name: Build and Push
 description: This action builds and push artifacts to ECR registry
+inputs:
+  AWS_ACCESS_KEY:
+    description: 'Aws access key'
+    required: true
+  AWS_SECRET_KEY:
+    description: 'Aws secret key'
+    required: true
+  AWS_REGION:
+    description: 'Aws secret key'
+    default: eu-north-1
 runs:
   using: composite
   steps:
@@ -10,9 +20,9 @@ runs:
     - name: Prepare Credentials
       uses: aws-actions/configure-aws-credentials@v4
       with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY}}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
-        aws-region: eu-north-1
+        aws-access-key-id: ${{ inputs.AWS_ACCESS_KEY}}
+        aws-secret-access-key: ${{ inputs.AWS_SECRET_KEY }}
+        aws-region: ${{ inputs.AWS_REGION }}
     - name: Log in to Amazon ECR
       uses: aws-actions/amazon-ecr-login@v2
       id: login-ecr
