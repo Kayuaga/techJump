@@ -17,10 +17,6 @@ runs:
       uses: ./.github/actions/setup-node-npm
     - name: lerna cache
       uses: ./.github/actions/restore-lerna-cache
-    - name: Install kubectl
-      uses: azure/setup-kubectl@v4
-    - name: Update kubeconfig
-      run: aws eks update-kubeconfig --name ${{ vars.EKS_CLUSTER }}
     - name: Prepare Credentials
       uses: aws-actions/configure-aws-credentials@v4
       with:

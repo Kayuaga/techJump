@@ -17,6 +17,10 @@ jobs:
         run: echo "NAME_SPACE=pr-${{ env.REPOSITORY_NAME }}-test" >> $GITHUB_ENV
       - name: checkout
         uses: actions/checkout@v4
+      - name: Install kubectl
+        uses: azure/setup-kubectl@v4
+      - name: Update kubeconfig
+        run: aws eks update-kubeconfig --name ${{ vars.EKS_CLUSTER }}
       - name: Build and push app
         uses: ./.github/actions/build-and-push
         with:
