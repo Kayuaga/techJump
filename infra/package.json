@@ -8,7 +8,8 @@
     "infra:change:docker:image": "kubectl set image deployments/$PROJECT_NAME $PROJECT_NAME=$DOCKER_IMAGE -n=$NAME_SPACE",
     "infra:apply:configmap": "kubectl apply -f $PROJECT_NAME/configMap.yaml -n=$NAME_SPACE",
     "infra:create:namespace": "kubectl create namespace $NAME_SPACE",
-    "infra:update:configmap": "chmod +x ./scripts/patchConfigMap.sh && ./scripts/patchConfigMap.sh"
+    "infra:update:configmap": "chmod +x ./scripts/patchConfigMap.sh && ./scripts/patchConfigMap.sh",
+    "infra:rollout:changes": "kubectl rollout restart deployments/$PROJECT_NAME -n=$NAME_SPACE  "
   },
   "repository": {
     "type": "git",
