@@ -13,6 +13,8 @@ jobs:
       REPOSITORY_NAME: ${{ github.event.pull_request.number }}
       NX_REJECT_UNKNOWN_LOCAL_CACHE: 0
     steps:
+      - name: Added namespace value to the scope
+      - run: echo "NAME_SPACE=pr-${{ env.REPOSITORY_NAME }}-test" >> $GITHUB_ENV
       - name: checkout
         uses: actions/checkout@v4
       - name: Build and push app
@@ -21,6 +23,8 @@ jobs:
           AWS_ACCESS_KEY: ${{secrets.AWS_ACCESS_KEY}}
           AWS_REGION: 'eu-north-1'
           AWS_SECRET_KEY: ${{ secrets.AWS_SECRET_KEY }}
+      - name: Rollout changes
+        run : lerna run rollout:changes
 
 
 
