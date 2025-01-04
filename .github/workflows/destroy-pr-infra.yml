@@ -41,7 +41,7 @@ jobs:
         run: lerna run destroy-infrastructure
       - name: delete kubernetes services, deployments
         run: |
-          kubectl delete deployments,services --all ${{env.NAME_SPACE}} 
+          kubectl delete deployments,services --all -n ${{env.NAME_SPACE}} 
           kubectl delete namespace ${{env.NAME_SPACE}} 
 
 
