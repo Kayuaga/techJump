@@ -33,7 +33,10 @@
       "cache": true
     },
     "rollout": {
-      "cahce": true
+      "cache": true
+    },
+    "destroy-registry": {
+      "cache": true
     },
     "dev": {
       "dependsOn": []

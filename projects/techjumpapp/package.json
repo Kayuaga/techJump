@@ -14,7 +14,7 @@
     "destroy-infrastructure": "lerna run destroy --scope cdk_infra -- --output cdk.out/frontendapp --force",
     "docker-build": "docker build -t $DOCKER_REGISTRY/$REPOSITORY_NAME-$PROJECT_NAME:$TAG .",
     "docker-push": "docker push $DOCKER_REGISTRY/$REPOSITORY_NAME-$PROJECT_NAME:$TAG",
-    "destroy-registry": "lerna run delete-registry --scope cdk_infra",
+    "destroy-registry": "REGISTRY_NAME=$REPOSITORY_NAME-$PROJECT_NAME lerna run delete-registry --scope cdk_infra",
     "deploy:app": "PROJECT_NAME=techjumpapp lerna run infra:deploy --scope infra",
     "update-env": "lerna run change:env --scope infra",
     "apply:configmap":"lerna run infra:apply:configmap -- -n $NAME_SPACE",

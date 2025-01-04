@@ -10,8 +10,8 @@
     "bootstrap": "cdk bootstrap",
     "deploy-registry": "cdk deploy --app \"npx ts-node bin/${PROJECT_NAME}-ecr-stack.ts\" --require-approval never",
     "deploy-eks-stack": "cdk deploy --app \"npx ts-node bin/eks_stack.ts\" --require-approval never",
-    "destroy": "cdk destroy --force",
-    "delete-registry": "aws ecr delete-repository --repository-name $REPOSITORY_NAME --force"
+    "destroy": "cdk destroy --app \"npx ts-node bin/${PROJECT_NAME}-ecr-stack.ts\" --force",
+    "delete-registry": "aws ecr delete-repository --repository-name $REGISTRY_NAME --no-cli-pager --force"
   },
   "devDependencies": {
     "@aws-cdk/lambda-layer-kubectl-v31": "^2.0.0",
