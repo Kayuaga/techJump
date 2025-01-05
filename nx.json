@@ -20,6 +20,24 @@
         "^test"
       ]
     },
+    "prepare-infrastructure": {
+      "cache": true
+    },
+    "docker-build": {
+      "cache": true
+    },
+    "docker-push": {
+      "cache": true
+    },
+    "rollout:changes": {
+      "cache": true
+    },
+    "rollout": {
+      "cache": true
+    },
+    "destroy-registry": {
+      "cache": true
+    },
     "dev": {
       "dependsOn": []
     },

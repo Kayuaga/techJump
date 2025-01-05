@@ -1,0 +1,43 @@
+name: Build and Push
+description: This action builds and push artifacts to ECR registry
+inputs:
+  AWS_ACCESS_KEY:
+    description: 'Aws access key'
+    required: true
+  AWS_SECRET_KEY:
+    description: 'Aws secret key'
+    required: true
+  AWS_REGION:
+    description: 'Aws secret key'
+    default: eu-north-1
+runs:
+  using: composite
+  steps:
+    - name: Set up node and npm
+      uses: ./.github/actions/setup-node-npm
+    - name: lerna cache
+      uses: ./.github/actions/restore-lerna-cache
+    - name: Prepare Credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ inputs.AWS_ACCESS_KEY}}
+        aws-secret-access-key: ${{ inputs.AWS_SECRET_KEY }}
+        aws-region: ${{ inputs.AWS_REGION }}
+    - name: Log in to Amazon ECR
+      uses: aws-actions/amazon-ecr-login@v2
+      id: login-ecr
+    - name: Set environment variables
+      shell: bash
+      run: |
+        echo "DOCKER_REGISTRY=${{ steps.login-ecr.outputs.registry }}" >> $GITHUB_ENV
+    - name: build app
+      shell: bash
+      run: lerna run build
+    - name: prepare docker images
+      shell: bash
+      run: lerna run docker-build
+    - name: push docker image
+      shell: bash
+      run: lerna run docker-push
+    - name: save lerna cache
+      uses: ./.github/actions/save-lerna-cache

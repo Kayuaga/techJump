@@ -28,7 +28,7 @@ export default async function Home() {
         <div className={styles.page}>
             <main className={styles.main}>
                 <ModalCard>
-                    YO
+                    YO changes!
                     <p>{data?.hello}</p>
                     <p>{dataTwo.hello}</p>
                 </ModalCard>
