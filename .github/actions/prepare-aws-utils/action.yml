@@ -1,0 +1,36 @@
+name: prepare-aws-utils
+description: This action builds and push artifacts to ECR registry
+inputs:
+  AWS_ACCESS_KEY:
+    description: 'Aws access key'
+    required: true
+  AWS_SECRET_KEY:
+    description: 'Aws secret key'
+    required: true
+  AWS_REGION:
+    description: 'Aws secret key'
+    default: eu-north-1
+  CLUSTER_NAME:
+    description: Cluster name for AWS EKS login
+    required: true
+runs:
+  using: composite
+  steps:
+    - name: Prepare Credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ inputs.AWS_ACCESS_KEY}}
+        aws-secret-access-key: ${{ inputs.AWS_SECRET_KEY }}
+        aws-region: ${{ inputs.AWS_REGION }}
+    - name: Log in to Amazon ECR
+      uses: aws-actions/amazon-ecr-login@v2
+      id: login-ecr
+    - name: Install kubectl
+      uses: azure/setup-kubectl@v4
+    - name: Update kubeconfig and set up credentials to EKS cluster
+      shell: bash
+      run: aws eks update-kubeconfig --name ${{ inputs.CLUSTER_NAME }}
+    - name: Set environment variables
+      shell: bash
+      run: |
+          echo "registry=${{ steps.login-ecr.outputs.registry }}" >> $GITHUB_OUTPUT
