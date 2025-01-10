@@ -13,6 +13,10 @@ inputs:
   CLUSTER_NAME:
     description: Cluster name for AWS EKS login
     required: true
+outputs:
+  registry:
+    description: "The ECR registry URI"
+    value: ${{ steps.login-ecr.outputs.registry }}
 runs:
   using: composite
   steps:
@@ -30,7 +34,3 @@ runs:
     - name: Update kubeconfig and set up credentials to EKS cluster
       shell: bash
       run: aws eks update-kubeconfig --name ${{ inputs.CLUSTER_NAME }}
-    - name: Set environment variables
-      shell: bash
-      run: |
-          echo "registry=${{ steps.login-ecr.outputs.registry }}" >> $GITHUB_OUTPUT
