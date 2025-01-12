@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: techjumpapp-config
+data:
+  BACKEND_ONE_URL: "{{ .Values.env.backendoneService }}"
+  BACKEND_TWO_URL: "{{ .Values.env.backendtwoService }}"

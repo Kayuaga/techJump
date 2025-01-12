@@ -1,0 +1,4 @@
+replicaCount: 1
+image: techjumpapp
+name: "techjumpapp"
+port: 3000

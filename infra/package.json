@@ -9,7 +9,12 @@
     "infra:apply:configmap": "kubectl apply -f $PROJECT_NAME/configMap.yaml -n=$NAME_SPACE",
     "infra:create:namespace": "kubectl create namespace $NAME_SPACE",
     "infra:update:configmap": "chmod +x ./scripts/patchConfigMap.sh && ./scripts/patchConfigMap.sh",
-    "infra:rollout:changes": "kubectl rollout restart deployments/$PROJECT_NAME -n=$NAME_SPACE  "
+    "infra:rollout:changes": "kubectl rollout restart deployments/$PROJECT_NAME -n=$NAME_SPACE",
+    "infra:helm:update:configmap": "chmod +x ./scripts/patchHelmConfigMap.sh && ./scripts/patchHelmConfigMap.sh",
+    "infra:helm:apply:configmap": "helm install techjumpapp-configmap-helm --namespace=$NAME_SPACE --create-namespace",
+    "infra:helm:deploy:app": "helm install $PROJECT_NAME ./$PROJECT_NAME-helm --set image=$DOCKER_IMAGE --create-namespace",
+    "infra:helm:update:charts": "helm update $PROJECT_NAME",
+    "infra:helm:rollout:change": "helm upgrade $PROJECT_NAME ./$PROJECT_NAME-helm --namespace=$NAME_SPACE"
   },
   "repository": {
     "type": "git",

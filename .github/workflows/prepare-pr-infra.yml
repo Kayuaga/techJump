@@ -31,8 +31,6 @@ jobs:
           echo "NAME_SPACE=pr-${{ env.REPOSITORY_NAME }}-test" >> $GITHUB_ENV
       - name: prepare infrastructure
         run: lerna run prepare-infrastructure
-      - name: Prepare deployments
-        run: lerna run infra:create:namespace
       - name: Apply config maps
         run: lerna run apply:configmap
       - name: Run deployments to the cluster
