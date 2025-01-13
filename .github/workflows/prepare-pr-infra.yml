@@ -36,7 +36,7 @@ jobs:
       - name: Run deployments to the cluster
         run: lerna run deploy:backend
       - name: Update config map backends dns names
-        run: lerna run update:configmap
+        run: lerna run update:configmap --concurrency=1
       - name: Deploy frontend app
         run: lerna run deploy:app
       - name: Run change images in config maps
