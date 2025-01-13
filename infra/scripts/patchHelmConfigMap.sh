@@ -9,4 +9,4 @@ done
 
 echo "Patching config map..."
 
-helm upgrade "$CONFIG_MAP_NAME" ./configmap-helm --set env."$VARIABLE_NAME"="$VALUE" --namespace "$NAME_SPACE" --create-namespace  --install
+helm upgrade "$CONFIG_MAP_NAME" ./configmap-helm --set env."$VARIABLE_NAME"="$VALUE" --namespace "$NAME_SPACE" --create-namespace  --reuse-values --install
