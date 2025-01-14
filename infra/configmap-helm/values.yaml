@@ -1,0 +1,3 @@
+env:
+  backendoneService: "http://backendone-service.default.svc.cluster.local"
+  backendtwoService: "http://backendtwo-service.default.svc.cluster.local"

@@ -1,0 +1,4 @@
+replicaCount: 1
+image: backendone
+port: 3000
+name: backendone

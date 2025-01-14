@@ -31,6 +31,8 @@ runs:
       id: login-ecr
     - name: Install kubectl
       uses: azure/setup-kubectl@v4
+    - name: install helm
+      uses: azure/setup-helm@v4.2.0
     - name: Update kubeconfig and set up credentials to EKS cluster
       shell: bash
       run: aws eks update-kubeconfig --name ${{ inputs.CLUSTER_NAME }}

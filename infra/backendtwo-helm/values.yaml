@@ -1,0 +1,4 @@
+replicaCount: 1
+image: backendtwo
+port: 3000
+name: backendtwo
