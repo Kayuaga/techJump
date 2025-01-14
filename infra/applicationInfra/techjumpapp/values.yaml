@@ -1,0 +1,7 @@
+replicaCount: 1
+image: techjumpapp
+name: "techjumpapp"
+port: 3000
+configMapName: techjumpapp-config
+includeConfigMap: true
+portType: LoadBalancer
