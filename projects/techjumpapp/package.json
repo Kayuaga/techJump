@@ -19,7 +19,7 @@
     "update-env": "lerna run change:env --scope infra",
     "apply:configmap":"lerna run infra:helm:apply:configmap",
     "update:image": "DOCKER_IMAGE=$DOCKER_REGISTRY/$REPOSITORY_NAME-$PROJECT_NAME:$TAG lerna run infra:change:docker:image",
-    "rollout:changes": "lerna run infra:helm:rollout:changes --scope=infra"
+    "rollout:changes": "lerna run infra:rollout:changes --scope=infra"
   },
   "dependencies": {
     "@kayuaga/ui-kit": "^0.5.5",
