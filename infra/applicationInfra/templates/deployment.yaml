@@ -19,6 +19,9 @@ spec:
         - name: {{ .Values.name }}
           image: "{{ .Values.image }}"
           imagePullPolicy: Always
+          env:
+            - name: PORT
+              value: "{{ .Values.port }}"
           {{- if .Values.includeConfigMap }}
           envFrom:
             - configMapRef:
