@@ -22,4 +22,9 @@ spec:
           env:
             - name: PORT
               value: "{{ .Values.port }}"
+          {{- if .Values.includeConfigMap }}
+          envFrom:
+            - configMapRef:
+                name: {{ .Values.configMapName }}
+                {{- end }}
       restartPolicy: Always
