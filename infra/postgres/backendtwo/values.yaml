@@ -1,0 +1,11 @@
+global:
+  postgresql:
+    auth:
+      username: admin
+      password: admin
+      database: mydatabase
+primary:
+  persistence:
+    enabled: true
+    size: 1Gi
+    storageClass: standard

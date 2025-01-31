@@ -1,0 +1,16 @@
+version: '3.8'  # Specify the Docker Compose file version
+
+services:
+  postgres:
+    image: postgres:17.2-alpine3.21  # Use the official PostgreSQL image
+    container_name: my_postgres  # Name of the container
+    environment:
+      POSTGRES_USER: admin  # Set the PostgreSQL username
+      POSTGRES_PASSWORD: admin  # Set the PostgreSQL password
+      POSTGRES_DB: mydatabase  # Set the default database
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  # Persist data to a named volume
+    ports:
+      - "5433:5432"  # Expose PostgreSQL on port 5432
+volumes:
+  postgres_data:

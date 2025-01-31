@@ -1,8 +1,9 @@
 import * as cdk from 'aws-cdk-lib';
-import { Construct } from 'constructs';
-import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as eks from 'aws-cdk-lib/aws-eks';
+import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as iam from 'aws-cdk-lib/aws-iam';
+
+import { Construct } from 'constructs';
 import { KubectlV31Layer } from '@aws-cdk/lambda-layer-kubectl-v31';
 
 interface MyEksClusterStackProps extends cdk.StackProps {
@@ -18,7 +19,7 @@ export class MyEksClusterStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props: MyEksClusterStackProps) {
     super(scope, id, props);
 
-    const { clusterName, clusterVersion, vpcCidr, amiReleaseVersion, tags } = props;
+    const { clusterName, clusterVersion, vpcCidr, tags } = props;
 
     // Update VPC creation to use ipAddresses instead of cidr
     const vpc = new ec2.Vpc(this, 'Vpc', {
@@ -78,6 +79,17 @@ export class MyEksClusterStack extends cdk.Stack {
       kubectlLayer: new KubectlV31Layer(this, 'kubectl'),
     });
 
+    // Add custom launch template to enforce IMDSv2
+    const launchTemplate = new ec2.CfnLaunchTemplate(this, 'LaunchTemplate', {
+      launchTemplateData: {
+        instanceMarketOptions: {
+          marketType: 'spot'
+        },
+        metadataOptions: {
+          httpTokens: 'required',
+        },
+      },
+    });
     // Add a managed node group
     const nodeGroup = cluster.addNodegroupCapacity('default-node-group', {
       instanceTypes: [ec2.InstanceType.of(ec2.InstanceClass.T3, ec2.InstanceSize.SMALL)],
@@ -85,10 +97,22 @@ export class MyEksClusterStack extends cdk.Stack {
       maxSize: 2,
       desiredSize: 1,
       forceUpdate: true,
-      labels: {
-        'monorepo-techjump': 'yes',
+      labels: { 'monorepo-techjump': 'yes' },
+      nodeRole: new iam.Role(this, 'NodeGroupRole', {
+        assumedBy: new iam.ServicePrincipal('ec2.amazonaws.com'),
+        managedPolicies: [
+          iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonEKSWorkerNodePolicy'),
+          iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonEC2ContainerRegistryReadOnly'),
+          iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonEKS_CNI_Policy'),
+        ],
+      }),
+      // Enforce IMDSv2 by setting the instance metadata options
+      launchTemplateSpec: {
+        id: launchTemplate.ref,
+        version: launchTemplate.attrLatestVersionNumber
       },
     });
+
 
     nodeGroup.role.addManagedPolicy(iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonEC2ContainerRegistryReadOnly'));
     cluster.awsAuth.addUserMapping(iam.User.fromUserArn(this, 'User', 'arn:aws:iam::803269230183:user/testTerraform'), {

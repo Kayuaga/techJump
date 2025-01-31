@@ -15,13 +15,35 @@ spec:
       labels:
         app: {{ .Values.name }}
     spec:
+      {{- if .Values.needMigration }}
+      initContainers:
+        - name: db-migration
+          image: "{{ .Values.migrationContainer }}"
+          imagePullPolicy: Never
+          command: [ "npm" ]
+          args: [ "run", "migrate:up" ]
+          env:
+            - name: DB_USERNAME
+              value: "admin"
+            - name: DB_PASSWORD
+              value: "admin"
+            - name: DB_NAME
+              value: "mydatabase"
+            - name: DB_PORT
+              value: ""
+            - name: DB_HOST
+              value: "backendone-postgresql.default.svc.cluster.local"
+            {{- end }}
+
       containers:
         - name: {{ .Values.name }}
           image: "{{ .Values.image }}"
-          imagePullPolicy: Always
+          imagePullPolicy: Never
           env:
             - name: PORT
               value: "{{ .Values.port }}"
+            - name: DB_HOST
+              value: "backendone-postgresql.default.svc.cluster.local"
           {{- if .Values.includeConfigMap }}
           envFrom:
             - configMapRef:
