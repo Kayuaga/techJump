@@ -3,6 +3,5 @@ image: backendone
 port: 3000
 name: backendone
 includeConfigMap: false
-portType: LoadBalancer
-migrationContainer: backendone-migration
+portType: ClusterIP
 needMigration: true

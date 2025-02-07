@@ -4,5 +4,4 @@ port: 3000
 name: backendtwo
 includeConfigMap: false
 portType: ClusterIP
-migrationContainer: backendtwo-migration
 needMigration: true
