@@ -10,7 +10,7 @@
     "bootstrap": "cdk bootstrap",
     "deploy-registry": "cdk deploy --app \"npx ts-node bin/${PROJECT_NAME}-ecr-stack.ts\" --require-approval never",
     "deploy-eks-stack": "cdk deploy --app \"npx ts-node bin/eks_stack.ts\" --require-approval never --profile dev-deploy",
-    "destroy-eks-stack": "cdk destroy --app \"npx ts-node bin/eks_stack.ts\"  --force",
+    "destroy-eks-stack": "cdk destroy --app \"npx ts-node bin/eks_stack.ts\"  --force --profile dev-deploy",
     "destroy": "cdk destroy --app \"npx ts-node bin/${PROJECT_NAME}-ecr-stack.ts\" --force",
     "delete-registry": "aws ecr delete-repository --repository-name $REGISTRY_NAME --no-cli-pager --force"
   },

@@ -33,6 +33,10 @@ runs:
       uses: azure/setup-kubectl@v4
     - name: install helm
       uses: azure/setup-helm@v4.2.0
+    - name: added postgres repo
+      run: |
+        helm repo add bitnami https://charts.bitnami.com/bitnami
+        helm repo update
     - name: Update kubeconfig and set up credentials to EKS cluster
       shell: bash
       run: aws eks update-kubeconfig --name ${{ inputs.CLUSTER_NAME }}

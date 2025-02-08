@@ -82,22 +82,18 @@ export class MyEksClusterStack extends cdk.Stack {
     // Add custom launch template to enforce IMDSv2
     const launchTemplate = new ec2.CfnLaunchTemplate(this, 'LaunchTemplate', {
       launchTemplateData: {
-        instanceMarketOptions: {
-          marketType: 'spot'
-        },
         metadataOptions: {
-          httpTokens: 'required',
+          httpTokens: 'required', // Enforce IMDSv2
+          httpEndpoint: 'enabled',
         },
       },
     });
-    // Add a managed node group
+
     const nodeGroup = cluster.addNodegroupCapacity('default-node-group', {
-      instanceTypes: [ec2.InstanceType.of(ec2.InstanceClass.T3, ec2.InstanceSize.SMALL)],
       minSize: 1,
       maxSize: 2,
       desiredSize: 1,
-      forceUpdate: true,
-      labels: { 'monorepo-techjump': 'yes' },
+      instanceTypes: [new ec2.InstanceType('t3.small')],
       nodeRole: new iam.Role(this, 'NodeGroupRole', {
         assumedBy: new iam.ServicePrincipal('ec2.amazonaws.com'),
         managedPolicies: [
@@ -106,10 +102,9 @@ export class MyEksClusterStack extends cdk.Stack {
           iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonEKS_CNI_Policy'),
         ],
       }),
-      // Enforce IMDSv2 by setting the instance metadata options
       launchTemplateSpec: {
         id: launchTemplate.ref,
-        version: launchTemplate.attrLatestVersionNumber
+        version: launchTemplate.attrLatestVersionNumber,
       },
     });
 

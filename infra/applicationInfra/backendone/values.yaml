@@ -5,3 +5,4 @@ name: backendone
 includeConfigMap: false
 portType: ClusterIP
 needMigration: true
+configMapName: backendone-config

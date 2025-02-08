@@ -5,3 +5,4 @@ name: backendtwo
 includeConfigMap: false
 portType: ClusterIP
 needMigration: true
+configMapName: backendtwo-config
