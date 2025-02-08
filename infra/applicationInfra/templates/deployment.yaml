@@ -18,7 +18,7 @@ spec:
       {{- if .Values.needMigration }}
       initContainers:
         - name: db-migration
-          image: "{{ .Values.migrationContainer }}"
+          image: "{{ .Values.image }}"
           imagePullPolicy: Never
           command: [ "npm" ]
           args: [ "run", "migrate:up" ]
