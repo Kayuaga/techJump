@@ -17,12 +17,12 @@ export class EcrInfraStack extends cdk.Stack {
       lifecycleRules: [
         {
           description: 'Retain only the last 10 images',
-          rulePriority: 1,
+          rulePriority: 2,
           maxImageCount: 10,
         },
         {
           description: 'Expire untagged images older than 30 days',
-          rulePriority: 2,
+          rulePriority: 1,
           tagStatus: ecr.TagStatus.UNTAGGED,
           maxImageAge: cdk.Duration.days(30),
         },
