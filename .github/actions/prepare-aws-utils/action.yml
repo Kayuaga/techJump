@@ -34,6 +34,7 @@ runs:
     - name: install helm
       uses: azure/setup-helm@v4.2.0
     - name: added postgres repo
+      shell: bash
       run: |
         helm repo add bitnami https://charts.bitnami.com/bitnami
         helm repo update

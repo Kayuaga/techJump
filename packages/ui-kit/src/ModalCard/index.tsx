@@ -1,5 +1,5 @@
 "use client"
-import React, {FC, ReactNode} from 'react'
+import React, {FC, ReactNode, useCallback} from 'react'
 
 import styles from './style.module.scss'
 
