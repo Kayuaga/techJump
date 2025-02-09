@@ -19,7 +19,7 @@ spec:
       initContainers:
         - name: db-migration
           image: "{{ .Values.image }}"
-          imagePullPolicy: Never
+          imagePullPolicy: Always
           command: [ "npm" ]
           args: [ "run", "migrate:up" ]
           envFrom:
@@ -30,7 +30,7 @@ spec:
       containers:
         - name: {{ .Values.name }}
           image: "{{ .Values.image }}"
-          imagePullPolicy: Never
+          imagePullPolicy: Always
           env:
             - name: PORT
               value: "{{ .Values.port }}"
