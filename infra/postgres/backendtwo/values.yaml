@@ -1,4 +1,5 @@
 global:
+  defaultStorageClass: gp2
   postgresql:
     auth:
       username: admin
@@ -8,4 +9,4 @@ primary:
   persistence:
     enabled: true
     size: 1Gi
-    storageClass: standard
+    storageClass: gp2
