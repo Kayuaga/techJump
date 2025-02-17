@@ -18,21 +18,21 @@ export default async function Home() {
     let data: DataI = {};
     let dataTwo: DataI = {}
 
-        const [responseOne, responseTwo] = await Promise.all(
-            [
-                fetch(serverConfig.backendOneUrl),
-                fetch(serverConfig.backendTwoUrl)
-            ]);
-        data = await responseOne.json()
-        dataTwo =  await responseTwo.json()
-        console.log(data, dataTwo)
+        // const [responseOne, responseTwo] = await Promise.all(
+        //     [
+        //         fetch(serverConfig.backendOneUrl),
+        //         fetch(serverConfig.backendTwoUrl)
+        //     ]);
+        // data = await responseOne.json()
+        // dataTwo =  await responseTwo.json()
+        // console.log(data, dataTwo)
     return (
         <div className={styles.page}>
             <main className={styles.main}>
                 <ModalCard>
                     YO changes!
-                    <p>{data?.length}</p>
-                    <p>{dataTwo?.length}</p>
+                    <p>{data?.length || 'YO TEST 1 '}</p>
+                    <p>{dataTwo?.length || 'YO TEST 2'}</p>
                 </ModalCard>
             </main>
             <footer className={styles.footer}>
