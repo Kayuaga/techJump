@@ -18,7 +18,7 @@
     "docker-build": "docker build -t $DOCKER_REGISTRY/$REPOSITORY_NAME-$PROJECT_NAME:$TAG .",
     "docker-push": "docker push $DOCKER_REGISTRY/$REPOSITORY_NAME-$PROJECT_NAME:$TAG",
     "deploy:backend": "DOCKER_IMAGE=$DOCKER_REGISTRY/$REPOSITORY_NAME-$PROJECT_NAME:$TAG lerna run infra:helm:deploy:app",
-    "apply:configmap": "lerna run infra:helm:apply:backend:configmap -- --set db_host=backendtwo-db-postgresql.$NAME_SPACE.svc.cluster.local",
+    "apply:configmap": "lerna run infra:helm:apply:backend:configmap -- --set db_host=backendtwo-database-postgresql.$NAME_SPACE.svc.cluster.local",
     "deploy:db": "lerna run infra:helm:install:postgres",
     "update:configmap": "VALUE=$SERVICE_URL.$NAME_SPACE lerna run infra:helm:update:configmap --scope infra",
     "update:image": "DOCKER_IMAGE=$DOCKER_REGISTRY/$REPOSITORY_NAME-$PROJECT_NAME:$TAG lerna run infra:change:docker:image",

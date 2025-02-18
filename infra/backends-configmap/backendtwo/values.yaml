@@ -2,5 +2,5 @@ db_username: "admin"
 db_password: "admin"
 db_name: "mydatabase"
 db_port: ""
-db_host: 'backendtwo-db-postgresql.default.svc.cluster.local'
+db_host: 'backendtwo-database-postgresql.default.svc.cluster.local'
 projectName: backendtwo

@@ -15,7 +15,7 @@
     "docker-build": "docker build -t $DOCKER_REGISTRY/$REPOSITORY_NAME-$PROJECT_NAME:$TAG .",
     "docker-push": "docker push $DOCKER_REGISTRY/$REPOSITORY_NAME-$PROJECT_NAME:$TAG",
     "destroy-registry": "REGISTRY_NAME=$REPOSITORY_NAME-$PROJECT_NAME lerna run delete-registry --scope cdk_infra",
-    "apply:configmap": "lerna run infra:helm:apply:backend:configmap -- --set db_host=backendone-db-postgresql.$NAME_SPACE.svc.cluster.local",
+    "apply:configmap": "lerna run infra:helm:apply:backend:configmap -- --set db_host=backendone-database-postgresql.$NAME_SPACE.svc.cluster.local",
     "deploy:db": "lerna run infra:helm:install:postgres",
     "deploy:backend": "DOCKER_IMAGE=$DOCKER_REGISTRY/$REPOSITORY_NAME-$PROJECT_NAME:$TAG lerna run infra:helm:deploy:app",
     "update:configmap": "VALUE=$SERVICE_URL.$NAME_SPACE lerna run infra:helm:update:configmap",

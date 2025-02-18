@@ -21,49 +21,156 @@ export class MyEksClusterStack extends cdk.Stack {
 
     const { clusterName, clusterVersion, vpcCidr, tags } = props;
 
-    // Update VPC creation to use ipAddresses instead of cidr
+    // Create the VPC for EKS
     const vpc = new ec2.Vpc(this, 'Vpc', {
-      ipAddresses: ec2.IpAddresses.cidr(vpcCidr),
-      maxAzs: 3,  // Limit to three Availability Zones
+      cidr: vpcCidr,
+      maxAzs: 3,
       subnetConfiguration: [
         {
-          cidrMask: 24,
           name: 'public',
+          cidrMask: 24,
           subnetType: ec2.SubnetType.PUBLIC,
           mapPublicIpOnLaunch: true,
         },
         {
-          cidrMask: 24,
           name: 'private',
+          cidrMask: 24,
           subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS,
         },
       ],
-      natGateways: 1,  // Set to have a single NAT Gateway
+      natGateways: 1,
     });
 
-    // Tag public subnets
-    vpc.publicSubnets.forEach(subnet => {
-      cdk.Tags.of(subnet).add('kubernetes.io/role/elb', '1');
-      Object.entries(tags).forEach(([key, value]) => {
-        cdk.Tags.of(subnet).add(key, value);
-      });
+    // Define IAM policy statements
+    const policyStatements = [
+      new iam.PolicyStatement({
+        effect: iam.Effect.ALLOW,
+        actions: [
+          "ecr:GetDownloadUrlForLayer",
+          "ecr:BatchGetImage",
+          "ecr:BatchCheckLayerAvailability",
+          "ec2:CreateSnapshot",
+          "ec2:AttachVolume",
+          "ec2:DetachVolume",
+          "ec2:ModifyVolume",
+          "ec2:DescribeAvailabilityZones",
+          "ec2:DescribeInstances",
+          "ec2:DescribeSnapshots",
+          "ec2:DescribeTags",
+          "ec2:DescribeVolumes",
+          "ec2:DescribeVolumesModifications",
+        ],
+        resources: ["*"],
+      }),
+      new iam.PolicyStatement({
+        effect: iam.Effect.ALLOW,
+        actions: ["ec2:CreateTags"],
+        resources: [
+          "arn:aws:ec2:*:*:volume/*",
+          "arn:aws:ec2:*:*:snapshot/*",
+        ],
+        conditions: {
+          StringEquals: {
+            "ec2:CreateAction": ["CreateVolume", "CreateSnapshot"]
+          }
+        },
+      }),
+      new iam.PolicyStatement({
+        effect: iam.Effect.ALLOW,
+        actions: ["ec2:DeleteTags"],
+        resources: [
+          "arn:aws:ec2:*:*:volume/*",
+          "arn:aws:ec2:*:*:snapshot/*",
+        ],
+      }),
+      new iam.PolicyStatement({
+        effect: iam.Effect.ALLOW,
+        actions: ["ec2:CreateVolume"],
+        resources: ["*"],
+        conditions: {
+          StringLike: {
+            "aws:RequestTag/ebs.csi.aws.com/cluster": "true"
+          }
+        },
+      }),
+      new iam.PolicyStatement({
+        effect: iam.Effect.ALLOW,
+        actions: ["ec2:CreateVolume"],
+        resources: ["*"],
+        conditions: {
+          StringLike: {
+            "aws:RequestTag/CSIVolumeName": "*"
+          }
+        },
+      }),
+      new iam.PolicyStatement({
+        effect: iam.Effect.ALLOW,
+        actions: ["ec2:DeleteVolume"],
+        resources: ["*"],
+        conditions: {
+          StringLike: {
+            "ec2:ResourceTag/ebs.csi.aws.com/cluster": "true"
+          }
+        },
+      }),
+      new iam.PolicyStatement({
+        effect: iam.Effect.ALLOW,
+        actions: ["ec2:DeleteVolume"],
+        resources: ["*"],
+        conditions: {
+          StringLike: {
+            "ec2:ResourceTag/CSIVolumeName": "*"
+          }
+        },
+      }),
+      new iam.PolicyStatement({
+        effect: iam.Effect.ALLOW,
+        actions: ["ec2:DeleteVolume"],
+        resources: ["*"],
+        conditions: {
+          StringLike: {
+            "ec2:ResourceTag/kubernetes.io/created-for/pvc/name": "*"
+          }
+        },
+      }),
+      new iam.PolicyStatement({
+        effect: iam.Effect.ALLOW,
+        actions: ["ec2:DeleteSnapshot"],
+        resources: ["*"],
+        conditions: {
+          StringLike: {
+            "ec2:ResourceTag/CSIVolumeSnapshotName": "*"
+          }
+        },
+      }),
+      new iam.PolicyStatement({
+        effect: iam.Effect.ALLOW,
+        actions: ["ec2:DeleteSnapshot"],
+        resources: ["*"],
+        conditions: {
+          StringLike: {
+            "ec2:ResourceTag/ebs.csi.aws.com/cluster": "true"
+          }
+        },
+      }),
+    ];
+
+    // IAM Role for the EBS CSI controller
+    const ebsCsiRole = new iam.Role(this, 'EbsCsiControllerRole', {
+      assumedBy: new iam.ServicePrincipal('eks.amazonaws.com'),
     });
 
-    // Tag private subnets
-    vpc.privateSubnets.forEach(subnet => {
-      cdk.Tags.of(subnet).add('kubernetes.io/role/internal-elb', '1');
-      cdk.Tags.of(subnet).add('karpenter.sh/discovery', clusterName);
-      Object.entries(tags).forEach(([key, value]) => {
-        cdk.Tags.of(subnet).add(key, value);
-      });
+    // Create an IAM policy and attach it to the role
+    const policy = new iam.Policy(this, 'EbsCsiControllerPolicy', {
+      statements: policyStatements,
     });
-
-    // IAM Role for the EKS cluster
+    policy.attachToRole(ebsCsiRole);
     const eksRole = new iam.Role(this, 'EksRole', {
       assumedBy: new iam.ServicePrincipal('eks.amazonaws.com'),
       managedPolicies: [
         iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonEKSClusterPolicy'),
         iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonEKSVPCResourceController'),
+        iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonEKSServicePolicy'),
       ],
     });
 
@@ -73,52 +180,100 @@ export class MyEksClusterStack extends cdk.Stack {
       version: clusterVersion,
       vpc,
       defaultCapacity: 0,
-      vpcSubnets: [{ subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS }],
-      endpointAccess: eks.EndpointAccess.PUBLIC,
       role: eksRole,
-      kubectlLayer: new KubectlV31Layer(this, 'kubectl'),
+      endpointAccess: eks.EndpointAccess.PUBLIC_AND_PRIVATE,
     });
 
-    // Add custom launch template to enforce IMDSv2
-    const launchTemplate = new ec2.CfnLaunchTemplate(this, 'LaunchTemplate', {
-      launchTemplateData: {
-        metadataOptions: {
-          httpTokens: 'required', // Enforce IMDSv2
-          httpEndpoint: 'enabled',
+    // Create a Kubernetes Service Account for EBS CSI Driver
+    const ebsCsiServiceAccount = cluster.addServiceAccount(
+        'EbsCsiControllerSa',
+        {
+          name: 'ebs-csi-controller-sa',
+          namespace: 'kube-system',
+        }
+    );
+
+    // Attach the role to the service account
+    ebsCsiServiceAccount.role.attachInlinePolicy(
+        new iam.Policy(this, 'EbsCsiServiceAccountPolicy', {
+          statements: policyStatements,
+        })
+    );
+
+    // Deploy the EBS CSI Driver using Helm
+    cluster.addHelmChart('aws-ebs-csi-driver', {
+      chart: 'aws-ebs-csi-driver',
+      release: 'aws-ebs-csi-driver',
+      repository: 'https://kubernetes-sigs.github.io/aws-ebs-csi-driver',
+      namespace: 'kube-system',
+      values: {
+        controller: {
+          serviceAccount: {
+            create: false,
+            name: ebsCsiServiceAccount.serviceAccountName,
+          },
         },
       },
     });
 
-    const nodeGroup = cluster.addNodegroupCapacity('default-node-group', {
-      minSize: 1,
-      maxSize: 2,
-      desiredSize: 1,
-      instanceTypes: [new ec2.InstanceType('t3.small')],
-      nodeRole: new iam.Role(this, 'NodeGroupRole', {
-        assumedBy: new iam.ServicePrincipal('ec2.amazonaws.com'),
-        managedPolicies: [
-          iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonEKSWorkerNodePolicy'),
-          iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonEC2ContainerRegistryReadOnly'),
-          iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonEKS_CNI_Policy'),
-        ],
-      }),
-      launchTemplateSpec: {
-        id: launchTemplate.ref,
-        version: launchTemplate.attrLatestVersionNumber,
-      },
+    // Additional NodeGroup setup if needed
+    const nodeGroupRole = new iam.Role(this, 'NodeGroupRole', {
+      assumedBy: new iam.ServicePrincipal('ec2.amazonaws.com'),
+      managedPolicies: [
+        iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonEKSWorkerNodePolicy'),
+        iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonEC2ContainerRegistryReadOnly'),
+        iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonEKS_CNI_Policy'),
+      ],
     });
 
-
-    nodeGroup.role.addManagedPolicy(iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonEC2ContainerRegistryReadOnly'));
     cluster.awsAuth.addUserMapping(iam.User.fromUserArn(this, 'User', 'arn:aws:iam::803269230183:user/testTerraform'), {
       username: 'cluster-admin',
       groups: ['system:masters'],
     });
 
-    // IAM Role for cluster admin
+    // Adding Cluster Admin Role
     const clusterAdminRole = new iam.Role(this, 'AdminRole', {
       assumedBy: new iam.AccountRootPrincipal(),
     });
     cluster.awsAuth.addMastersRole(clusterAdminRole);
+
+    // NodeGroup
+    const nodeGroup = cluster.addNodegroupCapacity('default-node-group', {
+      minSize: 2,
+      maxSize: 5,
+      desiredSize: 3,
+      instanceTypes: [new ec2.InstanceType('t3.small')],
+      nodeRole: nodeGroupRole,
+    });
+    nodeGroup.role.addManagedPolicy(iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonEC2ContainerRegistryReadOnly'));
+
+    // Example of Kubernetes YAML for Load Balancer
+    // Note: This should be preferably in a Helm chart or a manifest file
+    new eks.KubernetesManifest(this, 'LoadBalancerService', {
+      cluster,
+      manifest: [
+        {
+          apiVersion: 'v1',
+          kind: 'Service',
+          metadata: {
+            name: 'my-service',
+            namespace: 'default',
+          },
+          spec: {
+            type: 'LoadBalancer',
+            selector: {
+              app: 'my-app',
+            },
+            ports: [
+              {
+                protocol: 'TCP',
+                port: 80,
+                targetPort: 8080,
+              },
+            ],
+          },
+        },
+      ],
+    });
   }
 }
