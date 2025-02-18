@@ -22,7 +22,8 @@
     "deploy:db": "lerna run infra:helm:install:postgres",
     "update:configmap": "VALUE=$SERVICE_URL.$NAME_SPACE lerna run infra:helm:update:configmap --scope infra",
     "update:image": "DOCKER_IMAGE=$DOCKER_REGISTRY/$REPOSITORY_NAME-$PROJECT_NAME:$TAG lerna run infra:change:docker:image",
-    "rollout:changes": "lerna run infra:rollout:changes --scope=infra"
+    "rollout:changes": "lerna run infra:rollout:changes --scope=infra",
+    "migrate:up": "npx sequelize-cli db:migrate"
   },
   "author": "",
   "license": "ISC",
