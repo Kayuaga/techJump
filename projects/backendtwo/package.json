@@ -11,21 +11,28 @@
     "create-container": "docker build .",
     "blocker": "node blocker.js",
     "bazfoo": "echo $FOO",
+    "migration:generate": "sequelize-cli migration:generate --name init-migration",
     "prepare-infrastructure": "lerna run deploy-registry --scope cdk_infra -- --output cdk.out/backendtwo",
     "destroy-infrastructure": "lerna run destroy --scope cdk_infra -- --output cdk.out/backendtwo",
     "destroy-registry": "REGISTRY_NAME=$REPOSITORY_NAME-$PROJECT_NAME lerna run delete-registry --scope cdk_infra",
     "docker-build": "docker build -t $DOCKER_REGISTRY/$REPOSITORY_NAME-$PROJECT_NAME:$TAG .",
     "docker-push": "docker push $DOCKER_REGISTRY/$REPOSITORY_NAME-$PROJECT_NAME:$TAG",
     "deploy:backend": "DOCKER_IMAGE=$DOCKER_REGISTRY/$REPOSITORY_NAME-$PROJECT_NAME:$TAG lerna run infra:helm:deploy:app",
+    "apply:configmap": "lerna run infra:helm:apply:backend:configmap -- --set db_host=backendtwo-database-postgresql.$NAME_SPACE.svc.cluster.local",
+    "deploy:db": "lerna run infra:helm:install:postgres",
     "update:configmap": "VALUE=$SERVICE_URL.$NAME_SPACE lerna run infra:helm:update:configmap --scope infra",
     "update:image": "DOCKER_IMAGE=$DOCKER_REGISTRY/$REPOSITORY_NAME-$PROJECT_NAME:$TAG lerna run infra:change:docker:image",
-    "rollout:changes": "lerna run infra:rollout:changes --scope=infra"
+    "rollout:changes": "lerna run infra:rollout:changes --scope=infra",
+    "migrate:up": "npx sequelize-cli db:migrate"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "dotenv": "16.4.5",
-    "express": "4.21.0"
+    "express": "4.21.0",
+    "pg": "^8.13.1",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.37.5"
   },
   "devDependencies": {
     "@rollup/plugin-babel": "6.0.4",

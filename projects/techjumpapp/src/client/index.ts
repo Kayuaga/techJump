@@ -1,2 +1,2 @@
 "use client"
-export { ModalCard } from "@kayuaga/ui-kit"
+export { Modal as ModalCard } from "./Component/ModalCard"
