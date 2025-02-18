@@ -26,7 +26,7 @@ export default async function Home() {
         ]);
     data = await responseOne.json()
     dataTwo = await responseTwo.json()
-    console.log(data, dataTwo)
+    console.dir({data, dataTwo})
     return (
         <div className={styles.page}>
             <main className={styles.main}>

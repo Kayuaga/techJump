@@ -7,7 +7,7 @@ const port = process.env.PORT
 
 const sequelize = new Sequelize(`postgres://admin:admin@${process.env.DB_HOST}/mydatabase`)
 console.log(process.env.DB_NAME,'<<<<<<BD NAME')
-console.log(process.env.DB_HOST);
+console.log(process.env.DB_HOST, '<<<<DB_HOST');
 const connectsToDB = async () => {
     try {
         console.log('Trying to connect to postgres.')
@@ -51,6 +51,7 @@ console.log(port, 'PORT 1')
 app.get('/', async (req, res) => {
     try {
         const length = await ClicksCount.count()
+        console.log('sending length', length)
         res.json({ length }); // Send the data as a JSON response
     } catch (error) {
         console.error('Error retrieving data:', error);

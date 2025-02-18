@@ -51,6 +51,7 @@ console.log(port, 'PORT 1')
 app.get('/', async (req, res) => {
     try {
         const length = await ClicksCount.count()
+        console.log('sending length', length)
         res.json({ length: length || 0 }); // Send the data as a JSON response
     } catch (error) {
         console.error('Error retrieving data:', error);
