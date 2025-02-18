@@ -7,6 +7,7 @@ const port = process.env.PORT
 
 const sequelize = new Sequelize(`postgres://admin:admin@${process.env.DB_HOST}/mydatabase`)
 console.log(process.env.DB_NAME,'<<<<<<BD NAME')
+console.log(process.env.DB_HOST);
 const connectsToDB = async () => {
     try {
         console.log('Trying to connect to postgres.')
