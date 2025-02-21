@@ -15,6 +15,18 @@ spec:
       labels:
         app: {{ .Values.name }}
     spec:
+      {{- if .Values.needMigration }}
+      initContainers:
+        - name: db-migration
+          image: "{{ .Values.image }}"
+          imagePullPolicy: Always
+          command: [ "npm" ]
+          args: [ "run", "migrate:up" ]
+          envFrom:
+            - configMapRef:
+                name: {{ .Values.configMapName }}
+            {{- end }}
+
       containers:
         - name: {{ .Values.name }}
           image: "{{ .Values.image }}"

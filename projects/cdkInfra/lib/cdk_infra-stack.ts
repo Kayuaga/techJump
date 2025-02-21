@@ -1,20 +1,32 @@
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
-// import * as sqs from 'aws-cdk-lib/aws-sqs';
+import * as ecr from 'aws-cdk-lib/aws-ecr';
 
 interface CdkInfraStackProps extends cdk.StackProps {
   repositoryName: string
   repoId: string
 }
-
 export class EcrInfraStack extends cdk.Stack {
-  constructor(scope: Construct, id: string, props: CdkInfraStackProps  ) {
+  constructor(scope: Construct, id: string, props: CdkInfraStackProps) {
     super(scope, id, props);
-    console.log('in constructor', props.repoId)
-    console.log(props.repositoryName)
-    new cdk.aws_ecr.Repository(this, props.repoId, {
+
+    new ecr.Repository(this, props.repoId, {
+      emptyOnDelete: true,
       repositoryName: props.repositoryName,
-      removalPolicy: cdk.RemovalPolicy.DESTROY, // Automatically delete when stack is deleted
-    })
+      removalPolicy: cdk.RemovalPolicy.DESTROY, // Automatically delete the repository when stack is deleted
+      lifecycleRules: [
+        {
+          description: 'Retain only the last 10 images',
+          rulePriority: 2,
+          maxImageCount: 10,
+        },
+        {
+          description: 'Expire untagged images older than 30 days',
+          rulePriority: 1,
+          tagStatus: ecr.TagStatus.UNTAGGED,
+          maxImageAge: cdk.Duration.days(30),
+        },
+      ],
+    });
   }
 }
