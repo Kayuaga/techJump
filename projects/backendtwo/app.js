@@ -6,9 +6,11 @@ const port = process.env.PORT
 const dbName = process.env.DB_NAME
 const user = process.env.DB_USER
 const password = process.env.DB_PASSWORD
+const dbHost = process.env.DB_HOST
 
 
 const sequelize = new Sequelize(`postgres://${user}:${password}@${dbHost}/${dbName}`)
+
 console.log(process.env.DB_NAME,'<<<<<<BD NAME')
 console.log(process.env.DB_HOST, '<<<<DB_HOST');
 const connectsToDB = async () => {
