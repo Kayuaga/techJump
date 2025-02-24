@@ -38,6 +38,6 @@ runs:
       run: |
         helm repo add bitnami https://charts.bitnami.com/bitnami
         helm repo update
-    - name: Update kubeconfig and set up credentials to EKS cluster
-      shell: bash
-      run: aws eks update-kubeconfig --name ${{ inputs.CLUSTER_NAME }}
+#    - name: Update kubeconfig and set up credentials to EKS cluster
+#      shell: bash
+#      run: aws eks update-kubeconfig --name ${{ inputs.CLUSTER_NAME }}
