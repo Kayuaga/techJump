@@ -3,9 +3,12 @@ const  { Sequelize, DataTypes } = require('sequelize');
 const express = require('express')
 const app = express()
 const port = process.env.PORT
+const dbName = process.env.DB_NAME
+const dbHost = process.env.DB_HOST
 
 
-const sequelize = new Sequelize(`postgres://admin:admin@${process.env.DB_HOST}/mydatabase`)
+
+const sequelize = new Sequelize(`postgres://admin:admin@${dbHost}/${dbName}`)
 console.log(process.env.DB_NAME,'<<<<<<BD NAME')
 console.log(process.env.DB_HOST, '<<<<DB_HOST');
 const connectsToDB = async () => {
