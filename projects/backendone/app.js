@@ -8,7 +8,8 @@ const dbHost = process.env.DB_HOST
 
 
 
-const sequelize = new Sequelize(`postgres://admin:admin@${dbHost}/${dbName}`)
+const sequelize = new Sequelize(`postgres://${user}:${password}@${dbHost}/${dbName}`)
+
 console.log(process.env.DB_NAME,'<<<<<<BD NAME')
 console.log(process.env.DB_HOST, '<<<<DB_HOST');
 const connectsToDB = async () => {
