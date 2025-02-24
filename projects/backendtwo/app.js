@@ -5,8 +5,8 @@ const app = express()
 const port = process.env.PORT
 const dbName = process.env.DB_NAME
 const user = process.env.DB_USER
-const password = process.env.DB_PASSWORD
 const dbHost = process.env.DB_HOST
+const password = encodeURIComponent(process.env.DB_PASSWORD);
 
 
 const sequelize = new Sequelize(`postgres://${user}:${password}@${dbHost}/${dbName}`)

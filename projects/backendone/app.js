@@ -6,7 +6,7 @@ const port = process.env.PORT
 const dbName = process.env.DB_NAME
 const dbHost = process.env.DB_HOST
 const user = process.env.DB_USER
-const password = process.env.DB_PASSWORD
+const password = encodeURIComponent(process.env.DB_PASSWORD);
 
 
 
