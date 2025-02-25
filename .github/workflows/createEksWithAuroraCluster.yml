@@ -1,0 +1,29 @@
+name: createEksWithAuroraCluster.yml
+
+on:
+  workflow_dispatch:
+
+jobs:
+  create_infrastructure:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+      - name: Prepare Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY}}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+          aws-region: eu-north-1
+      - name: Set up node and npm
+        uses: ./.github/actions/setup-node-npm
+      - name: Deploy EKS with Aurora Cluster
+        run: lerna run deploy:eks-aurora-stack
+      - name: Retrieve secrets from AWS Secrets Manager
+        id: get_secrets
+        run: |
+            SECRET_JSON=$(aws secretsmanager get-secret-value --secret-id myDBLoginInfo --query SecretString --output text)
+            echo "::set-output name=db_username::$(echo $SECRET_JSON | jq -r '.username')"
+            echo "::set-output name=db_password::$(echo $SECRET_JSON | jq -r '.password')"
+            echo $SECRET_JSON
+

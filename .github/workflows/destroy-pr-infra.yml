@@ -34,9 +34,9 @@ jobs:
           AWS_SECRET_KEY: ${{ secrets.AWS_SECRET_KEY }}
           CLUSTER_NAME: ${{ vars.EKS_CLUSTER }}
       - name: Delete docker  registry
-        run: lerna run destroy-registry
+        run: lerna run destroy:registry
       - name: Destroy CDK stack
-        run: lerna run destroy-infrastructure
+        run: lerna run destroy:infrastructure
       - name: delete kubernetes services, deployments
         run: |
           kubectl delete deployments,services --all -n ${{env.NAME_SPACE}} 
