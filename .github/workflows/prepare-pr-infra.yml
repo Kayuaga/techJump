@@ -31,21 +31,21 @@ jobs:
           echo "NAME_SPACE=pr-${{ env.REPOSITORY_NAME }}-test" >> $GITHUB_ENV
       - name: prepare infrastructure
         run: lerna run prepare-infrastructure
-      - name: Deploy DB as a helm charts
-        run: lerna run deploy:db
-      - name: Apply config maps
-        run: lerna run apply:configmap
-      - name: Run deployments to the cluster
-        run: lerna run deploy:backend
+#      - name: Deploy DB as a helm charts
+#        run: lerna run deploy:db
+#      - name: Apply config maps
+#        run: lerna run apply:configmap
+#      - name: Run deployments to the cluster
+#        run: lerna run deploy:backend
 
-      - name: Update config map backends dns names
-        run: lerna run update:configmap --concurrency=1
-      - name: Deploy frontend app
-        run: lerna run deploy:app
-      - name: Run change images in config maps
-        run: lerna run update:image
-      - name: save lerna cache
-        uses: ./.github/actions/save-lerna-cache
+#      - name: Update config map backends dns names
+#        run: lerna run update:configmap --concurrency=1
+#      - name: Deploy frontend app
+#        run: lerna run deploy:app
+#      - name: Run change images in config maps
+#        run: lerna run update:image
+#      - name: save lerna cache
+#        uses: ./.github/actions/save-lerna-cache
   build-app:
     runs-on: ubuntu-latest
     needs: prepare_infra

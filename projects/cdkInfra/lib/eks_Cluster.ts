@@ -247,33 +247,33 @@ export class MyEksClusterStack extends cdk.Stack {
     });
     nodeGroup.role.addManagedPolicy(iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonEC2ContainerRegistryReadOnly'));
 
-    // Example of Kubernetes YAML for Load Balancer
-    // Note: This should be preferably in a Helm chart or a manifest file
-    new eks.KubernetesManifest(this, 'LoadBalancerService', {
-      cluster,
-      manifest: [
-        {
-          apiVersion: 'v1',
-          kind: 'Service',
-          metadata: {
-            name: 'my-service',
-            namespace: 'default',
-          },
-          spec: {
-            type: 'LoadBalancer',
-            selector: {
-              app: 'my-app',
-            },
-            ports: [
-              {
-                protocol: 'TCP',
-                port: 80,
-                targetPort: 8080,
-              },
-            ],
-          },
-        },
-      ],
-    });
+    // // Example of Kubernetes YAML for Load Balancer
+    // // Note: This should be preferably in a Helm chart or a manifest file
+    // new eks.KubernetesManifest(this, 'LoadBalancerService', {
+    //   cluster,
+    //   manifest: [
+    //     {
+    //       apiVersion: 'v1',
+    //       kind: 'Service',
+    //       metadata: {
+    //         name: 'my-service',
+    //         namespace: 'default',
+    //       },
+    //       spec: {
+    //         type: 'LoadBalancer',
+    //         selector: {
+    //           app: 'my-app',
+    //         },
+    //         ports: [
+    //           {
+    //             protocol: 'TCP',
+    //             port: 80,
+    //             targetPort: 8080,
+    //           },
+    //         ],
+    //       },
+    //     },
+    //   ],
+    // });
   }
 }

@@ -4,120 +4,69 @@ import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import * as rds from 'aws-cdk-lib/aws-rds';
 import * as secretsmanager from 'aws-cdk-lib/aws-secretsmanager';
-import { Construct } from 'constructs';
-import { KubectlV31Layer } from '@aws-cdk/lambda-layer-kubectl-v31';
+import {Construct} from 'constructs';
+import {EksClusterConstruct} from "./eskCluster";
+import {AuroraCluster} from './auroraCluster'
+import {VPCClusterGroup} from "./vpc";
+import {SecretValue} from "aws-cdk-lib";
 
 interface MyEksClusterStackProps extends cdk.StackProps {
     clusterName: string;
     clusterVersion: eks.KubernetesVersion;
     vpcCidr: string;
     amiReleaseVersion: string;
-    // userArn: string;
+    userArn: string;
     tags: { [key: string]: string };
+    vpcClusterName: string;
+    secretName: string;
+    clusterId: string;
+    secretId: string;
+    securityGroupName: string;
 }
+
 export class MyEksAndAuroraStack extends cdk.Stack {
     constructor(scope: Construct, id: string, props: MyEksClusterStackProps) {
         super(scope, id, props);
 
-        const { clusterName, clusterVersion, vpcCidr } = props;
+        const {clusterName, userArn, tags, vpcClusterName, secretName, vpcCidr, clusterVersion, clusterId, secretId, securityGroupName} = props;
 
-        const vpc = new ec2.Vpc(this, 'Vpc', {
-            ipAddresses: ec2.IpAddresses.cidr(vpcCidr),
-            maxAzs: 3,
-            subnetConfiguration: [
-                {
-                    cidrMask: 24,
-                    name: 'public',
-                    subnetType: ec2.SubnetType.PUBLIC,
-                    mapPublicIpOnLaunch: true,
-                },
-                {
-                    cidrMask: 24,
-                    name: 'private',
-                    subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS,
-                },
-            ],
-            natGateways: 1,
-        });
+        const vpc = new VPCClusterGroup(this, vpcClusterName, {
+            vpcCidr,
+        })
 
-        const eksRole = new iam.Role(this, 'EksRole', {
-            assumedBy: new iam.ServicePrincipal('eks.amazonaws.com'),
-            managedPolicies: [
-                iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonEKSClusterPolicy'),
-                iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonEKSVPCResourceController'),
-            ],
-        });
-
-        const cluster = new eks.Cluster(this, 'EksCluster', {
+        const eksCluster = new EksClusterConstruct(this, clusterId, {
+            vpc: vpc.getVpc(),
+            userArn,
             clusterName,
-            version: clusterVersion,
-            vpc,
-            defaultCapacity: 0,
-            vpcSubnets: [{ subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS }],
-            endpointAccess: eks.EndpointAccess.PUBLIC,
-            role: eksRole,
-        });
+            clusterVersion,
+            amiReleaseVersion: 'latest',
+            tags,
+        })
 
-        // Create a Launch Template with IMDSv2 enforcement
-        const launchTemplate = new ec2.CfnLaunchTemplate(this, 'NodeLaunchTemplate', {
-            launchTemplateData: {
-                instanceType: 't3.medium',
-                metadataOptions: {
-                    httpTokens: 'required',  // Enforce the use of IMDSv2
-                },
-            },
-        });
-
-        // Add managed Node Group using the launch template
-        cluster.addNodegroupCapacity('default-node-group', {
-            desiredSize: 2,
-            maxSize: 3,
-            minSize: 1,
-            launchTemplateSpec: {
-                id: launchTemplate.ref, // Reference the launch template
-                version: launchTemplate.attrLatestVersionNumber,
-            },
-        });
-
-        const dbSecret = new secretsmanager.Secret(this, 'DbSecret', {
-            generateSecretString: {
-                secretStringTemplate: JSON.stringify({ username: 'postgres' }),
-                generateStringKey: 'password',
-                passwordLength: 16,
-            },
-        });
-
-        const dbSecurityGroup = new ec2.SecurityGroup(this, 'DbSecurityGroup', {
-            vpc,
+        const dbSecurityGroup = new ec2.SecurityGroup(this, securityGroupName, {
+            vpc: vpc.getVpc(),
             description: 'Allow access to RDS from EKS cluster',
             allowAllOutbound: true,
         });
 
-        cluster.connections.allowTo(dbSecurityGroup, ec2.Port.tcp(5432));
+        const dbSecret = new secretsmanager.Secret(this, secretId, {
+            secretName,
+            generateSecretString: {
+                secretStringTemplate: JSON.stringify({username: 'test'}),
+                generateStringKey: 'password',
+                excludeCharacters: '"@/\\`',
+            },
+        });
 
-        const auroraCluster = new rds.DatabaseCluster(this, 'Database', {
-            engine: rds.DatabaseClusterEngine.auroraPostgres({ version: rds.AuroraPostgresEngineVersion.VER_14_5 }),
+        eksCluster.getCluster().connections.allowTo(dbSecurityGroup, ec2.Port.tcp(5432));
+
+        new AuroraCluster(this, 'Database', {
             defaultDatabaseName: 'mydatabase',
-            instances: 2,
+            vpc: vpc.getVpc(),
             credentials: rds.Credentials.fromSecret(dbSecret),
-            vpc,
-            vpcSubnets: {
-                subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS,
-            },
-            securityGroups: [dbSecurityGroup],
-        });
+            securityGroups: [dbSecurityGroup]
 
-        cluster.addManifest('DbCredentialsSecret', {
-            apiVersion: 'v1',
-            kind: 'Secret',
-            metadata: { name: 'db-credentials' },
-            type: 'Opaque',
-            data: {
-                username: dbSecret.secretValueFromJson('username').toString(),
-                password: dbSecret.secretValueFromJson('password').toString(),
-                host: Buffer.from(auroraCluster.clusterEndpoint.hostname).toString('base64'),
-                port: Buffer.from('5432').toString('base64'),
-            },
-        });
+        })
     }
+
 }
