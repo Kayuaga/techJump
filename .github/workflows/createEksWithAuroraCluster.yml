@@ -1,4 +1,4 @@
-name: createEksWithAuroraCluster.yml
+name: Prepare infra with aurora
 
 on:
   workflow_dispatch:
