@@ -1,0 +1,33 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: create-databases
+spec:
+  template:
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:latest
+          command: ["sh", "-c"]
+          args:
+            - |
+               psql -h $HOST -U $POSTGRES_USER -d mydatabase -c 'CREATE DATABASE backendonedb;' &&
+               psql -h $HOST -U $POSTGRES_USER -d mydatabase -c 'CREATE DATABASE backendtwodb;'
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{.Values.secretName}}
+                  key: DB_USERNAME
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{.Values.secretName}}
+                  key: DB_PASSWORD
+            - name: HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: backendone-config
+                  key: DB_HOST
+      restartPolicy: Never
+  backoffLimit: 4

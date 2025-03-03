@@ -15,7 +15,8 @@
     "infra:helm:apply:backend:configmap": "helm install $PROJECT_NAME-configmap-helm ./backends-configmap -f ./backends-configmap/$PROJECT_NAME/values.yaml --namespace=$NAME_SPACE --create-namespace",
     "infra:helm:deploy:app": "helm install $PROJECT_NAME ./applicationInfra -f ./applicationInfra/$PROJECT_NAME/values.yaml --set image=$DOCKER_IMAGE --namespace=$NAME_SPACE --create-namespace",
     "infra:helm:install:postgres": "helm install $PROJECT_NAME-database bitnami/postgresql -f ./postgres/$PROJECT_NAME/values.yaml --namespace=$NAME_SPACE --create-namespace",
-    "infra:helm:rollout:change": "helm upgrade $PROJECT_NAME ./$PROJECT_NAME-helm --namespace=$NAME_SPACE"
+    "infra:helm:rollout:change": "helm upgrade $PROJECT_NAME ./$PROJECT_NAME-helm --namespace=$NAME_SPACE",
+    "infra:helm:deploy:database-job": "helm install database-job ./jobs --namespace=$NAME_SPACE"
   },
   "repository": {
     "type": "git",

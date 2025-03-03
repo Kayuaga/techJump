@@ -24,13 +24,16 @@ spec:
           args: [ "run", "migrate:up" ]
           env:
             - name: DB_USER
-              value: "test"
+              valueFrom:
+                secretKeyRef:
+                  name: {{.Values.secretName}}
+                  key: DB_USERNAME
+
             - name: DB_PASSWORD
-              value: "K#gn$9}fW8m*?s61`isg2)Xdq*Ni+0EK"
-            - name: DB_HOST
-              value: "myeksauroraclusterstack-databaseb269d8bb-0td9vu421zqy.cluster-c117odnd1k38.eu-north-1.rds.amazonaws.com"
-
-
+              valueFrom:
+                secretKeyRef:
+                  name: {{.Values.secretName}}
+                  key: DB_PASSWORD
           envFrom:
             - configMapRef:
                 name: {{ .Values.configMapName }}

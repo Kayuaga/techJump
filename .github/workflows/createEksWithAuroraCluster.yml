@@ -23,7 +23,7 @@ jobs:
           echo "NAME_SPACE=default" >> $GITHUB_ENV
       - name: Set up node and npm
         uses: ./.github/actions/setup-node-npm
-      - name: prepare infrastructure
+      - name: prepare infrastructure create docker registries
         run: lerna run prepare-infrastructure
       - name: Deploy EKS with Aurora Cluster
         run: lerna run deploy:eks-aurora-stack
@@ -38,6 +38,8 @@ jobs:
         run : lerna run apply:secrets
       - name: Apply config maps
         run : lerna run apply:configmap
+      - name: Run kubernetes job for table creations
+        run: lerna run infra:helm:deploy:database-job
       - name: Run deployments to the cluster
         run: lerna run deploy:backend
       - name: Deploy frontend app
