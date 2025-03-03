@@ -21,7 +21,8 @@ export class AuroraCluster extends Construct {
         super(scope, id);
 
         const { vpc, securityGroups, credentials,defaultDatabaseName } = props;
-
+        // logging amount of connected users
+        // check one database instance
         new rds.DatabaseCluster(this, id, {
             engine: rds.DatabaseClusterEngine.auroraPostgres({ version: rds.AuroraPostgresEngineVersion.VER_16_4 }),
             defaultDatabaseName,

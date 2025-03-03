@@ -9,21 +9,39 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v4
-      - name: Prepare Credentials
-        uses: aws-actions/configure-aws-credentials@v4
+      - name: Prepare AWS
+        id: prepare-aws
+        uses: ./.github/actions/prepare-aws-utils
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY}}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
-          aws-region: eu-north-1
+          AWS_ACCESS_KEY: ${{secrets.AWS_ACCESS_KEY}}
+          AWS_REGION: 'eu-north-1'
+          AWS_SECRET_KEY: ${{ secrets.AWS_SECRET_KEY }}
+          CLUSTER_NAME: ${{ vars.EKS_CLUSTER }}
+      - name: Set up env variables
+        run: |
+          echo "DOCKER_REGISTRY=${{ steps.prepare-aws.outputs.registry }}" >> $GITHUB_ENV
+          echo "NAME_SPACE=default" >> $GITHUB_ENV
       - name: Set up node and npm
         uses: ./.github/actions/setup-node-npm
+      - name: prepare infrastructure
+        run: lerna run prepare-infrastructure
       - name: Deploy EKS with Aurora Cluster
         run: lerna run deploy:eks-aurora-stack
       - name: Retrieve secrets from AWS Secrets Manager
         id: get_secrets
         run: |
-            SECRET_JSON=$(aws secretsmanager get-secret-value --secret-id myDBLoginInfo --query SecretString --output text)
-            echo "::set-output name=db_username::$(echo $SECRET_JSON | jq -r '.username')"
-            echo "::set-output name=db_password::$(echo $SECRET_JSON | jq -r '.password')"
-            echo $SECRET_JSON
+            SECRET_JSON=$(aws secretsmanager get-secret-value --secret-id eks-aurora-secret --query SecretString --output text)
+            echo "::set-output name=DB_USER::$(echo $SECRET_JSON | jq -r '.username')"
+            echo "::set-output name=DB_PASSWORD::$(echo $SECRET_JSON | jq -r '.password')"
+            echo "::set-output name=DB_HOST::$(echo $SECRET_JSON | jq -r '.host')"
+      - name: Apply secretes
+        run : lerna run apply:secrets
+      - name: Apply config maps
+        run : lerna run apply:configmap
+      - name: Run deployments to the cluster
+        run: lerna run deploy:backend
+      - name: Deploy frontend app
+        run: lerna run deploy:app
+    
+        
 

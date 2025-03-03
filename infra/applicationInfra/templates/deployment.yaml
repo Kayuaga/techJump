@@ -22,6 +22,15 @@ spec:
           imagePullPolicy: Always
           command: [ "npm" ]
           args: [ "run", "migrate:up" ]
+          env:
+            - name: DB_USER
+              value: "test"
+            - name: DB_PASSWORD
+              value: "K#gn$9}fW8m*?s61`isg2)Xdq*Ni+0EK"
+            - name: DB_HOST
+              value: "myeksauroraclusterstack-databaseb269d8bb-0td9vu421zqy.cluster-c117odnd1k38.eu-north-1.rds.amazonaws.com"
+
+
           envFrom:
             - configMapRef:
                 name: {{ .Values.configMapName }}
@@ -34,6 +43,17 @@ spec:
           env:
             - name: PORT
               value: "{{ .Values.port }}"
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{.Values.secretName}}
+                  key: DB_USERNAME
+
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{.Values.secretName}}
+                  key: DB_PASSWORD
           {{- if .Values.includeConfigMap }}
           envFrom:
             - configMapRef:
