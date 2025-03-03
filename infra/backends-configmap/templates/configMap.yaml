@@ -3,8 +3,6 @@ kind: ConfigMap
 metadata:
   name: {{ .Values.projectName }}-config
 data:
-   DB_USERNAME: "{{ .Values.db_username }}"
-   DB_PASSWORD: "{{ .Values.db_password }}"
    DB_NAME: "{{.Values.db_name}}"
    DB_PORT: "{{.Values.db_port}}"
    DB_HOST: "{{.Values.db_host}}"
