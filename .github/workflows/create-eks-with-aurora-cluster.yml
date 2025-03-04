@@ -37,9 +37,9 @@ jobs:
         id: get_secrets
         run: |
             SECRET_JSON=$(aws secretsmanager get-secret-value --secret-id eks-aurora-secret --query SecretString --output text)
-            echo "::set-output name=DB_USER::$(echo $SECRET_JSON | jq -r '.username')"
-            echo "::set-output name=DB_PASSWORD::$(echo $SECRET_JSON | jq -r '.password')"
-            echo "::set-output name=DB_HOST::$(echo $SECRET_JSON | jq -r '.host')"
+            echo "DB_USER=$(echo $SECRET_JSON | jq -r '.username')" >> $GITHUB_ENV
+            echo "DB_PASSWORD=$(echo $SECRET_JSON | jq -r '.password')" >> $GITHUB_ENV
+            echo "DB_HOST=$(echo $SECRET_JSON | jq -r '.host')" >> $GITHUB_ENV
       - name: Apply secretes
         run : lerna run apply:secrets
       - name: Apply config maps
