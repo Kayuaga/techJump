@@ -9,6 +9,12 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v4
+      - name: Set up node and npm
+        uses: ./.github/actions/setup-node-npm
+      - name: prepare infrastructure create docker registries
+        run: lerna run prepare-infrastructure
+      - name: Deploy EKS with Aurora Cluster
+        run: lerna run deploy:eks-aurora-stack
       - name: Prepare AWS
         id: prepare-aws
         uses: ./.github/actions/prepare-aws-utils
@@ -21,12 +27,6 @@ jobs:
         run: |
           echo "DOCKER_REGISTRY=${{ steps.prepare-aws.outputs.registry }}" >> $GITHUB_ENV
           echo "NAME_SPACE=default" >> $GITHUB_ENV
-      - name: Set up node and npm
-        uses: ./.github/actions/setup-node-npm
-      - name: prepare infrastructure create docker registries
-        run: lerna run prepare-infrastructure
-      - name: Deploy EKS with Aurora Cluster
-        run: lerna run deploy:eks-aurora-stack
       - name: Retrieve secrets from AWS Secrets Manager
         id: get_secrets
         run: |
