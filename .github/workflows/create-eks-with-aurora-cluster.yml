@@ -9,6 +9,12 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v4
+      - name: Prepare Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY}}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+          aws-region: 'eu-north-1'
       - name: Set up node and npm
         uses: ./.github/actions/setup-node-npm
       - name: prepare infrastructure create docker registries
