@@ -16,7 +16,7 @@ jobs:
           AWS_ACCESS_KEY: ${{secrets.AWS_ACCESS_KEY}}
           AWS_REGION: 'eu-north-1'
           AWS_SECRET_KEY: ${{ secrets.AWS_SECRET_KEY }}
-          CLUSTER_NAME: ${{ vars.EKS_CLUSTER }}
+          CLUSTER_NAME: 'my-eks-aurora-cluster'
       - name: Set up env variables
         run: |
           echo "DOCKER_REGISTRY=${{ steps.prepare-aws.outputs.registry }}" >> $GITHUB_ENV
