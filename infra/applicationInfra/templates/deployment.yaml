@@ -46,6 +46,7 @@ spec:
           env:
             - name: PORT
               value: "{{ .Values.port }}"
+          {{- if .Values.includeConfigMap }}
             - name: DB_USER
               valueFrom:
                 secretKeyRef:
@@ -57,7 +58,6 @@ spec:
                 secretKeyRef:
                   name: {{.Values.secretName}}
                   key: DB_PASSWORD
-          {{- if .Values.includeConfigMap }}
           envFrom:
             - configMapRef:
                 name: {{ .Values.configMapName }}
