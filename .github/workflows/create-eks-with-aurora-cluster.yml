@@ -57,7 +57,6 @@ jobs:
     needs: create_infrastructure
     env:
       NX_REJECT_UNKNOWN_LOCAL_CACHE: 0
-      REPOSITORY_NAME: ${{ github.event.pull_request.number }}
     steps:
       - name: checkout
         uses: actions/checkout@v4
