@@ -7,3 +7,4 @@ portType: ClusterIP
 needMigration: true
 configMapName: backendtwo-config
 secretName: backendtwo-db-secrets
+hasSecrets: true
