@@ -6,3 +6,4 @@ includeConfigMap: true
 portType: ClusterIP
 needMigration: true
 configMapName: backendone-config
+secretName: backendone-db-secrets
