@@ -10,7 +10,7 @@
     "infra:update:configmap": "chmod +x ./scripts/patchConfigMap.sh && ./scripts/patchConfigMap.sh",
     "infra:rollout:changes": "kubectl rollout restart deployments/$PROJECT_NAME -n=$NAME_SPACE",
     "infra:helm:update:configmap": "chmod +x ./scripts/patchHelmConfigMap.sh && ./scripts/patchHelmConfigMap.sh",
-    "infra:helm:apply:configmap": "helm install techjumpapp-configmap-helm ./configmap-helm --namespace=$NAME_SPACE --create-namespace",
+    "infra:helm:apply:configmap": "helm install techjumpapp-configmap-helm ./configmap-helm --set db_host=$DB_HOST --namespace=$NAME_SPACE --create-namespace",
     "infra:helm:apply:secret": "helm install $PROJECT_NAME-db-secret ./database-secrets -f ./database-secrets/$PROJECT_NAME/values.yaml --set DB_USER=$(echo -n $DB_USER | base64) --set DB_PASSWORD=$(echo -n $DB_PASSWORD | base64) --namespace=$NAME_SPACE --create-namespace",
     "infra:helm:apply:backend:configmap": "helm install $PROJECT_NAME-configmap-helm ./backends-configmap -f ./backends-configmap/$PROJECT_NAME/values.yaml --namespace=$NAME_SPACE --create-namespace",
     "infra:helm:deploy:app": "helm install $PROJECT_NAME ./applicationInfra -f ./applicationInfra/$PROJECT_NAME/values.yaml --set image=$DOCKER_IMAGE --namespace=$NAME_SPACE --create-namespace",
