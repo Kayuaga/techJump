@@ -1,2 +1,1 @@
-
-DB_: "http://backendone-service.default.svc.cluster.local"
+secretName: backendone-db-secrets
