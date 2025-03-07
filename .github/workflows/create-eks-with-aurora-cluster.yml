@@ -58,8 +58,8 @@ jobs:
         run: lerna run apply:configmap
       - name: Apply secretes
         run : lerna run apply:secrets
-      - name: Run kubernetes job for table creations
-        run: lerna run infra:helm:deploy:database-job
+#      - name: Run kubernetes job for table creations
+#        run: lerna run infra:helm:deploy:database-job
       - name: Run deployments to the cluster
         run: lerna run deploy:backend
       - name: Deploy frontend app
