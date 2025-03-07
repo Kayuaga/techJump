@@ -31,6 +31,8 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v4
+      - name: Set up node and npm
+        uses: ./.github/actions/setup-node-npm
       - name: Prepare AWS
         id: prepare-aws
         uses: ./.github/actions/prepare-aws-utils
