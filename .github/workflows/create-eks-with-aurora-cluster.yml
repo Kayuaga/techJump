@@ -24,6 +24,7 @@ jobs:
       - name: Deploy EKS with Aurora Cluster
         run: lerna run deploy:eks-aurora-stack
   deploy-kubernetes-objects:
+    needs: create_infrastructure
     env:
       NX_REJECT_UNKNOWN_LOCAL_CACHE: 0
     runs-on: ubuntu-latest
@@ -63,7 +64,7 @@ jobs:
         run: lerna run deploy:app
   build-and-push-app:
     runs-on: ubuntu-latest
-    needs: create_infrastructure
+    needs: [create_infrastructure, deploy-kubernetes-objects]
     env:
       NX_REJECT_UNKNOWN_LOCAL_CACHE: 0
     steps:
