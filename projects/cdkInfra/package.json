@@ -11,7 +11,7 @@
     "deploy:registry": "cdk deploy --app \"npx ts-node bin/${PROJECT_NAME}-ecr-stack.ts\" --require-approval never",
     "deploy:eks-stack": "cdk deploy --app \"npx ts-node bin/eks_stack.ts\" --require-approval never",
     "deploy:eks-aurora-stack": "cdk deploy --app \"npx ts-node bin/eks_with_aurora.ts\" --require-approval never",
-    "destroy:eks-aurora-stack": "cdk destroy --app \"npx ts-node bin/eks_with_aurora.ts\" --force --profle dev-deploy",
+    "destroy:eks-aurora-stack": "cdk destroy --app \"npx ts-node bin/eks_with_aurora.ts\" --force",
     "destroy:eks-stack": "cdk destroy --app \"npx ts-node bin/eks_stack.ts\"  --force",
     "destroy": "cdk destroy --app \"npx ts-node bin/${PROJECT_NAME}-ecr-stack.ts\" --force",
     "delete:registry": "aws ecr delete-repository --repository-name $REGISTRY_NAME --no-cli-pager --force"

@@ -21,6 +21,7 @@
     "apply:configmap": "lerna run infra:helm:apply:backend:configmap -- --set db_host=$DB_HOST",
     "apply:configmap:standalonedb": "lerna run infra:helm:apply:backend:configmap -- --set db_host=backendtwo-database-postgresql.$NAME_SPACE.svc.cluster.local",
     "apply:secrets": "lerna run infra:helm:apply:secret",
+    "apply:dev:secrets": "lerna run infra:helm:apply:dev:secret",
     "deploy:db": "lerna run infra:helm:install:postgres",
     "update:configmap": "VALUE=$SERVICE_URL.$NAME_SPACE lerna run infra:helm:update:configmap --scope infra",
     "update:image": "DOCKER_IMAGE=$DOCKER_REGISTRY/$REPOSITORY_NAME-$PROJECT_NAME:$TAG lerna run infra:change:docker:image",
@@ -34,7 +35,8 @@
     "express": "4.21.0",
     "pg": "^8.13.1",
     "pg-hstore": "^2.3.4",
-    "sequelize": "^6.37.5"
+    "sequelize": "^6.37.5",
+    "prom-client": "15.1.3"
   },
   "devDependencies": {
     "@rollup/plugin-babel": "6.0.4",
