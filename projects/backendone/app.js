@@ -1,6 +1,8 @@
 require('dotenv').config()
 const  { Sequelize, DataTypes } = require('sequelize');
 const express = require('express')
+const client = require('prom-client');
+const register = client.register;
 const app = express()
 const port = process.env.PORT
 const dbName = process.env.DB_NAME
@@ -8,6 +10,26 @@ const dbHost = process.env.DB_HOST
 const user = process.env.DB_USER
 const password = encodeURIComponent(process.env.DB_PASSWORD);
 
+
+// Example: Counter metric
+const httpCounter = new client.Counter({
+    name: 'http_requests_total',
+    help: 'Total number of HTTP requests',
+    labelNames: ['method', 'path']
+});
+
+// Increment counter on every request
+app.use((req, res, next) => {
+    httpCounter.inc({ method: req.method, path: req.path });
+    next();
+});
+
+// /metrics endpoint for Prometheus to scrape
+app.get('/metrics', async (req, res) => {
+    console.log('let logs some metrics!')
+    res.set('Content-Type', register.contentType);
+    res.end(await register.metrics());
+});
 
 
 const sequelize = new Sequelize(`postgres://${user}:${password}@${dbHost}/${dbName}`)
@@ -51,14 +73,12 @@ const ClicksCount = sequelize.define('ClicksCount', {
     timestamps: true, // Automatically manage `createdAt` and `updatedAt`
 });
 
-
-console.log(port, 'PORT 1')
-
 app.get('/', async (req, res) => {
     try {
+        console.log('lets logs it')
         const length = await ClicksCount.count()
         console.log('sending length', length)
-        res.json({ length }); // Send the data as a JSON response
+        res.json({ length, test:'hello new version' }); // Send the data as a JSON response
     } catch (error) {
         console.error('Error retrieving data:', error);
         res.status(500).send('Internal Server Error');
